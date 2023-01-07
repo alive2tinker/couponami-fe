@@ -1,0 +1,7 @@
+{
+  "name": "couponami-fe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
