@@ -23,9 +23,12 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import store from './store'
+import './assets/css/app.css';
 
-const app = createApp(App).use(store)
+import store from './store'
+import i18n from './i18n'
+
+const app = createApp(App).use(store).use(i18n).use(store)
   .use(IonicVue,{
     mode:'ios'
   })

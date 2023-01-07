@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import CategoriesModule from './modules/categories'
 import CouponsModule from './modules/coupons'
 
 export default createStore({
@@ -12,5 +13,6 @@ export default createStore({
   },
   modules: {
     coupons: CouponsModule,
+    categories: CategoriesModule
   }
 })

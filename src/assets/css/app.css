@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ion-modal.search-modal {
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    --backdrop-opacity: var(--ion-backdrop-opacity, 0.32);
+    --background:rgba(0,0,0,0.7);
+}
+
+ion-modal.search-modal.content {
+    background-color: red;
+}
