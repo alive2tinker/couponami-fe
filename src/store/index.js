@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import CategoriesModule from './modules/categories'
 import CouponsModule from './modules/coupons'
+import FavoritesModule from './modules/favorites'
 
 export default createStore({
   state: {
@@ -13,6 +14,7 @@ export default createStore({
   },
   modules: {
     coupons: CouponsModule,
-    categories: CategoriesModule
+    categories: CategoriesModule,
+    favorties: FavoritesModule
   }
 })

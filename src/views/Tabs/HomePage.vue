@@ -16,7 +16,16 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-card v-for="coupon in coupons" :key="coupon.id" @click="showCouponDetails(coupon)">
+      <div class="flex overflow-x-scroll py-4">
+        <div>
+          <ion-chip class="" @click="filterCategory = ''">{{ $t('All')}}</ion-chip>
+        </div>
+        <div v-for="category in categories" :key="category.id">
+          <ion-chip @click="filterCategory = category.name">{{ category.name }}</ion-chip>
+        </div>
+      </div>
+      <div v-if="filtreredCoupons.length > 0">
+        <ion-card v-for="coupon in filtreredCoupons" :key="coupon.id" @click="showCouponDetails(coupon)">
         <ion-card-header>
           <div class="flex justify-between">
             <ion-card-title>{{ coupon.store.name ?? '' }}</ion-card-title>
@@ -28,6 +37,8 @@
           {{ coupon.offer }}
         </ion-card-content>
       </ion-card>
+      </div>
+      <EmptyScreen v-else />
 
       <ion-modal ref="couponModal" :initial-breakpoint="0.75" :breakpoints="[0, 0.25, 0.5, 0.75, 1]"
         handle-behavior="cycle">
@@ -102,12 +113,12 @@
       </ion-modal>
 
       <!-- Search Modal-->
-      <ion-modal class="search-modal" :initial-breakpoint="0.95" ref="searchModal" trigger="start-search">
+      <ion-modal class="search-modal" :initial-breakpoint="1" ref="searchModal" trigger="start-search">
         <div class="px-2 py-6">
-          <ion-icon :icon="close" class="w-6 h-6" @click="$refs.searchModal.$el.dismiss()" />
+          <ion-icon :icon="close" class="w-6 h-6 text-white" @click="$refs.searchModal.$el.dismiss()" />
           <ion-card>
             <ion-card-content>
-              <ion-input class="indent-2" :placeholder="$t('search')" color="light" v-model="keyword"></ion-input>
+              <ion-input class="indent-2" :placeholder="$t('search')" v-model="keyword"></ion-input>
             </ion-card-content>
           </ion-card>
           <ion-card>
@@ -130,27 +141,35 @@
 </template>
 
 <script>
-import {  IonIcon, IonInput, IonButtons, IonModal, toastController, IonButton, IonText, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {  IonChip, IonIcon, IonInput, IonButtons, IonModal, toastController, IonButton, IonText, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard';
 import { Share } from '@capacitor/share';
 import { search, close } from 'ionicons/icons'
+import EmptyScreen from '@/components/EmptyScreen.vue'
 
 export default defineComponent({
   components: {
-    IonCard, IonIcon, IonInput, IonButtons, IonModal, IonButton, IonText, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent
+    IonCard, EmptyScreen, IonChip, IonIcon, IonInput, IonButtons, IonModal, IonButton, IonText, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent
   },
   computed: {
     ...mapGetters({
       coupons: 'coupons/all',
       categories: 'categories/all'
-    })
+    }),
+    filtreredCoupons(){
+      if(this.filterCategory !== '')
+        return this.coupons.filter((s) => s.category.name === this.filterCategory);
+
+      return this.coupons;
+    }
   },
   data() {
     return {
       currentCoupon: '',
-      keyword: ''
+      keyword: '',
+      filterCategory: ''
     }
   },
   mounted() {
