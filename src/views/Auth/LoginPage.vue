@@ -1,0 +1,67 @@
+<template>
+    <ion-page>
+        <ion-header translucent="true">
+            <ion-toolbar>
+                <ion-title>{{ $t('Login') }}</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content :fullscreen="true">
+            <ion-header collapse="condense">
+                <ion-toolbar>
+                    <ion-buttons>
+                        <ion-back-button defaultHref="/" text=""></ion-back-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <div class="max-w-7xl mx-auto p-4">
+                <ion-text>
+                    <h1 class="font-bold text-3xl text-zinc-800">{{ $t("Let's Sign you in") }}</h1>
+                </ion-text>
+                <ion-text>
+                    <p class="py-4 text-2xl font-thin text-zinc-600">{{  $t('Welcome back to your Couponami!') }}</p>
+                </ion-text>
+                <div class="flex h-64">
+                    <div class="m-auto flex-1 space-y-3">
+                        <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('Username or phone number')"></ion-input>
+                        <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('Password')"></ion-input>
+                            <ion-button fill="clear" id="forgotPasswordButton">{{ $t('Forgot Password')}}</ion-button>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <ion-text>
+                        <p class="font-medium subpixel-antialiased">{{ $t('Don’t have an account?')}}</p>
+                    </ion-text>
+                    <ion-button fill="clear" class="-mt-3" id="registerButton" @click="goToRegistration">{{ $t('Register')}}</ion-button>
+                </div>
+            </div>
+        </ion-content>
+        <ion-footer :translucent="true" class="ion-no-border ion-padding">
+                <ion-button color="primary" expand="block" :disabled="signInDisabled">{{ $t('Sign In')}}</ion-button>
+            </ion-footer>
+    </ion-page>
+</template>
+<script setup>
+import { IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton } from '@ionic/vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+let signInDisabled = ref(true);
+
+const router = useRouter();
+
+function goToRegistration(){
+    router.push({name: 'registration'})
+}
+</script>
+<style scoped>
+#forgotPasswordButton{
+    --padding-start: 0
+}
+
+#registerButton{
+    --padding-start: 0;
+    --padding-end: 0;
+}
+</style>

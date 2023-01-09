@@ -13,10 +13,12 @@
             </ion-header>
             <ion-list>
                 <ion-item>
-                    <ion-label>Pokémon Yellow</ion-label>
+                    <ion-icon :icon="person" slot="start" />
+                    <ion-label>{{ $t('Account') }}</ion-label>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Mega Man X</ion-label>
+                    <ion-icon :icon="moon" slot="start" />
+                    <ion-label>{{ $t('Dark Mode')}}</ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-icon :icon="earth" slot="start" />
@@ -26,10 +28,6 @@
                     <ion-icon :icon="star" slot="start"/>
                     <ion-label>{{ $t('Rate Us')}}</ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-icon :icon="settings" slot="start"/>
-                    <ion-label>{{ $t('Settings') }}</ion-label>
-                </ion-item>
             </ion-list>
         </ion-content>
     </ion-page>
@@ -37,5 +35,5 @@
 
 <script setup>
 import { IonList, IonItem, IonLabel, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import { settings, star, earth } from 'ionicons/icons';
+import { person, moon, star, earth } from 'ionicons/icons';
 </script>
