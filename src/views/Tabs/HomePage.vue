@@ -37,6 +37,12 @@
           {{ coupon.offer }}
         </ion-card-content>
       </ion-card>
+      <ion-infinite-scroll @ionInfinite="nextPage($event)">
+      <ion-infinite-scroll-content
+        loading-text="Please wait..."
+        loading-spinner="bubbles"
+      ></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
       </div>
       <EmptyScreen v-else />
 
@@ -160,7 +166,7 @@
 </template>
 
 <script>
-import {  IonChip, IonIcon, IonInput, IonButtons, IonModal, toastController, IonButton, IonText, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {  IonInfiniteScroll, IonInfiniteScrollContent, IonChip, IonIcon, IonInput, IonButtons, IonModal, toastController, IonButton, IonText, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard';
@@ -170,7 +176,7 @@ import EmptyScreen from '@/components/EmptyScreen.vue'
 
 export default defineComponent({
   components: {
-    IonCard, EmptyScreen, IonChip, IonIcon, IonInput, IonButtons, IonModal, IonButton, IonText, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent
+    IonInfiniteScroll, IonInfiniteScrollContent, IonCard, EmptyScreen, IonChip, IonIcon, IonInput, IonButtons, IonModal, IonButton, IonText, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent
   },
   computed: {
     ...mapGetters({
@@ -234,6 +240,13 @@ export default defineComponent({
         dialogTitle: 'Share with your friends',
       });
     },
+
+    nextPage(e){
+      setTimeout(() => {
+        this.fetchNextPage();
+        e.target.complete()
+      }, 3000);
+    }
   },
   setup() {
     return {
