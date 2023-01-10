@@ -16,7 +16,7 @@ const FavoritesModule = {
     actions: {
         fetchFavorites({ commit }) {
             return new Promise((resolve, reject) => {
-                Request().get('favorites').then((res) => {
+                Request().get('user/1/favorites').then((res) => {
                     commit('SET_FAVORITES', res.data.data);
                     resolve();
                 }).catch((err) => {

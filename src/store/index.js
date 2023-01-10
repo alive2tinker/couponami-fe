@@ -15,6 +15,6 @@ export default createStore({
   modules: {
     coupons: CouponsModule,
     categories: CategoriesModule,
-    favorties: FavoritesModule
+    favorites: FavoritesModule
   }
 })

@@ -17,6 +17,7 @@
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.6.1",
     "@capacitor/haptics": "4.1.0",
+    "@capacitor/ios": "4.6.1",
     "@capacitor/keyboard": "4.1.0",
     "@capacitor/share": "^4.1.0",
     "@capacitor/status-bar": "4.1.1",
@@ -24,6 +25,7 @@
     "@ionic/vue-router": "^6.0.0",
     "axios": "^1.2.2",
     "core-js": "^3.6.5",
+    "debounce": "^1.2.1",
     "ionicons": "^6.0.3",
     "tailwindcss": "^3.2.4",
     "vue": "^3.2.21",
@@ -34,6 +36,7 @@
   "devDependencies": {
     "@capacitor/cli": "4.6.1",
     "@intlify/vue-i18n-loader": "^3.0.0",
+    "@ionic/cli": "6.20.6",
     "@vue/cli-plugin-babel": "~5.0.0-rc.1",
     "@vue/cli-plugin-e2e-cypress": "~5.0.0-rc.1",
     "@vue/cli-plugin-eslint": "~5.0.0-rc.1",

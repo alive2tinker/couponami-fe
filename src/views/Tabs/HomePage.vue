@@ -121,7 +121,26 @@
               <ion-input class="indent-2" :placeholder="$t('search')" v-model="keyword"></ion-input>
             </ion-card-content>
           </ion-card>
-          <ion-card>
+          <div v-show="searchedCoupons.length > 0">
+            <ion-card v-for="coupon in searchedCoupons" :key="coupon.id" @click="showCouponDetails(coupon)">
+              <ion-card-header>
+                <div class="flex justify-between">
+                  <ion-card-title>{{ coupon.store.name ?? '' }}</ion-card-title>
+                  <img :src="coupon.store.icon ?? ''" alt="" class="rounded-full w-16 h-16" />
+                </div>
+              </ion-card-header>
+            
+              <ion-card-content>
+                {{ coupon.offer }}
+              </ion-card-content>
+            </ion-card>
+          </div>
+          <ion-card v-show="searchedCoupons.length === 0 && keyword !== ''">
+            <ion-card-content>
+              <ion-text>{{ $t('No Data')}}</ion-text>
+            </ion-card-content>
+          </ion-card>
+          <ion-card v-show="keyword === ''">
             <ion-card-content class="animate-pulse">
               <div class="flex justify-between">
                 <div class="rounded-full bg-gray-400 w-16 h-16"></div>
@@ -156,7 +175,8 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       coupons: 'coupons/all',
-      categories: 'categories/all'
+      categories: 'categories/all',
+      searchedCoupons: 'coupons/searched'
     }),
     filtreredCoupons(){
       if(this.filterCategory !== '')
@@ -176,10 +196,16 @@ export default defineComponent({
     this.fetchCoupons();
     this.fetchCategories();
   },
+  watch:{
+    keyword(newKeyword){
+      this.searchCoupons(newKeyword);
+    }
+  },
   methods: {
     ...mapActions({
       fetchCoupons: 'coupons/fetchCoupons',
-      fetchCategories: 'categories/fetchCategories'
+      fetchCategories: 'categories/fetchCategories',
+      searchCoupons: 'coupons/searchCoupons'
     }),
     showCouponDetails(coupon) {
       this.currentCoupon = coupon;
