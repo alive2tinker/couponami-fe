@@ -14,8 +14,6 @@ export default () => {
     }catch(e){
         //
     }
-
-    console.log(`this is testing url ${JSON.stringify(process.env)}`);
     const request = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_PRODUCTION_URL : process.env.VUE_APP_TESTING_URL,
         headers: rHeaders

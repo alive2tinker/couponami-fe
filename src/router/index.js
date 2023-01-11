@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import TabsPage from "../views/Tabs/TabsPage.vue";
+import { Preferences } from '@capacitor/preferences';
+// import store from '../store';
+
 
 const routes = [
   {
@@ -8,6 +11,7 @@ const routes = [
   },
   {
     path: "/login",
+    name: "Login",
     component: () => import("@/views/Auth/LoginPage.vue"),
   },
   {
@@ -31,18 +35,30 @@ const routes = [
       {
         path: "home",
         component: () => import("@/views/Tabs/HomePage.vue"),
+        meta:{
+          isGuarded: false
+        }
       },
       {
         path: "favorites",
         component: () => import("@/views/Tabs/FavoritePage.vue"),
+        meta:{
+          isGuarded: true
+        }
       },
       {
         path: "createCoupon",
         component: () => import("@/views/Tabs/CreateCouponPage.vue"),
+        meta:{
+          isGuarded: true
+        }
       },
       {
         path: "settings",
         component: () => import("@/views/Tabs/SettingsPage.vue"),
+        meta:{
+          isGuarded: false
+        }
       },
     ],
   },
@@ -52,5 +68,17 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach(async (to, from, next) => {
+  const user = await Preferences.get('user');
+  if (user !== null || user !== undefined){
+    // await store.dispatch("auth/updateUser", user);
+  }
+  if(to.meta.isGuarded && user.token === null){
+    next({name: 'Login'})
+  }else{
+    next();
+  }
+})
 
 export default router;
