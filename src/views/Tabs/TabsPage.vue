@@ -20,12 +20,29 @@
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
+    <ion-modal ref="modal" :isOpen="authModalOpen" @didDismiss="authModalOpen = false" :initial-breakpoint="0.25" :breakpoints="[0, 0.25, 0.5, 0.75]">
+      <ion-content class="ion-padding">
+        
+      </ion-content>
+    </ion-modal>
   </ion-page>
 </template>
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { starOutline, addCircleOutline, homeOutline, menuOutline } from 'ionicons/icons';
+import { onBeforeRouteUpdate } from 'vue-router';
+import { ref } from 'vue';
+
+let authModalOpen = ref(false);
+onBeforeRouteUpdate((to) => {
+  if(to.meta.isGuarded){
+    authModalOpen.value = true;
+    return false
+  }else{
+    return true;
+  }
+})
 </script>
 <style scoped>
   ion-tab-bar{
