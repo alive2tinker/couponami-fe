@@ -15,21 +15,21 @@
             </ion-header>
             <div class="max-w-7xl mx-auto p-4">
                 <ion-text>
-                    <h1 class="font-bold text-3xl text-zinc-800">{{ $t("Let's Register you in") }}</h1>
+                    <h1 class="font-bold text-3xl">{{ $t("Let's Register you in") }}</h1>
                 </ion-text>
                 <ion-text>
-                    <p class="py-4 text-2xl font-thin text-zinc-600">{{  $t('Welcome to your Couponami!') }}</p>
+                    <p class="py-4 text-2xl font-thin">{{  $t('Welcome to your Couponami!') }}</p>
                 </ion-text>
                 <div class="flex h-72">
                     <div class="m-auto flex-1 space-y-3">
-                        <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
-                            :placeholder="$t('username')"></ion-input>
-                            <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
-                            :placeholder="$t('phone number')"></ion-input>
-                        <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
-                            :placeholder="$t('Password')"></ion-input>
-                            <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
-                            :placeholder="$t('Password Confirmation')"></ion-input>
+                        <ion-input class="border border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('username')" v-model="form.username"></ion-input>
+                            <ion-input class="border border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('phone number')" v-model="form.phone"></ion-input>
+                        <ion-input type="password" class="border border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('Password')" v-model="form.password"></ion-input>
+                            <ion-input type="password" class="border border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('Password Confirmation')" v-model="form.passwordConfirmation"></ion-input>
                     </div>
                 </div>
                 <div class="flex justify-between">
@@ -41,7 +41,7 @@
             </div>
         </ion-content>
         <ion-footer :translucent="true" class="ion-no-border ion-padding">
-                <ion-button color="primary" expand="block" :disabled="registrationDisabled">{{ $t('Register')}}</ion-button>
+                <ion-button color="primary" expand="block" :disabled="!registrationDisabled">{{ $t('Register')}}</ion-button>
             </ion-footer>
     </ion-page>
 </template>
@@ -50,12 +50,23 @@ import { IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage,
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 
-let registrationDisabled = ref(true);
+
 
 const router = useRouter();
 
+let form = ref({
+    username: '',
+    phone: '',
+    password: '',
+    passwordConfirmation: ''
+});
+
+let formValidation = form.value.username !== '' && form.value.phone !== '' && form.value.password !== '' && form.value.passwordConfirmation !== '';
+console.log(formValidation);
+let registrationDisabled = ref(formValidation);
+
 function goToLogin(){
-    router.push({name: 'login'})
+    router.push({name: 'Login'})
 }
 </script>
 <style scoped>

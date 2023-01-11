@@ -34,6 +34,7 @@ const routes = [
       },
       {
         path: "home",
+        name: "home",
         component: () => import("@/views/Tabs/HomePage.vue"),
         meta:{
           isGuarded: false
@@ -41,6 +42,7 @@ const routes = [
       },
       {
         path: "favorites",
+        name: "favorites",
         component: () => import("@/views/Tabs/FavoritePage.vue"),
         meta:{
           isGuarded: true
@@ -48,6 +50,7 @@ const routes = [
       },
       {
         path: "createCoupon",
+        name: "createCoupon",
         component: () => import("@/views/Tabs/CreateCouponPage.vue"),
         meta:{
           isGuarded: true
@@ -55,6 +58,7 @@ const routes = [
       },
       {
         path: "settings",
+        name: "settings",
         component: () => import("@/views/Tabs/SettingsPage.vue"),
         meta:{
           isGuarded: false
@@ -70,10 +74,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const user = await Preferences.get('user');
-  if (user !== null || user !== undefined){
-    // await store.dispatch("auth/updateUser", user);
-  }
+  /* eslint-disable-next-line no-unused-vars */
+  const user = await Preferences.get({key:'user'});
   if(to.meta.isGuarded && user.token === null){
     next({name: 'Login'})
   }else{
