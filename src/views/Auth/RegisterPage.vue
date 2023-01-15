@@ -36,7 +36,7 @@
                     <ion-text>
                         <p class="font-medium subpixel-antialiased">{{ $t('have an account already?')}}</p>
                     </ion-text>
-                    <ion-button fill="clear" class="-mt-3" id="registerButton" @click="goToLogin">{{ $t('Login')}}</ion-button>
+                    <ion-button fill="clear" class="-mt-3" id="registerButton" @click="router.push({name: 'Login'})">{{ $t('Login')}}</ion-button>
                 </div>
             </div>
         </ion-content>
@@ -45,29 +45,46 @@
             </ion-footer>
     </ion-page>
 </template>
-<script setup>
+<script >
 import { IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton } from '@ionic/vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { defineComponent } from 'vue';
+import { mapActions, mapGetters } from 'vuex';
+import { useRouter } from 'vue-router';
 
+export default defineComponent({
+    components:{
+        IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton
+    },
+    computed:{
+        registrationDisabled(){
+            return this.form.username !== '' && this.form.phone !== '' && this.form.password !== '' && this.form.passwordConfirmation !== '';
+        },
+        ...mapGetters({
 
+        })
+    },
+    data(){
+        return {
+            form:{
+                username: '',
+                phone: '',
+                password: '',
+                passwordConfirmation: ''
+            }
+        }
+    },
+    methods:{
+        ...mapActions({
 
-const router = useRouter();
-
-let form = ref({
-    username: '',
-    phone: '',
-    password: '',
-    passwordConfirmation: ''
-});
-
-let formValidation = form.value.username !== '' && form.value.phone !== '' && form.value.password !== '' && form.value.passwordConfirmation !== '';
-console.log(formValidation);
-let registrationDisabled = ref(formValidation);
-
-function goToLogin(){
-    router.push({name: 'Login'})
-}
+        })
+    },
+    setup(){
+        const router = useRouter();
+        return {
+            router
+        }
+    }
+})
 </script>
 <style scoped>
 #forgotPasswordButton{

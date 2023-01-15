@@ -18,10 +18,10 @@
       </ion-header>
       <div class="flex overflow-x-scroll py-4">
         <div>
-          <ion-chip class="" @click="filterCategory = ''">{{ $t('All')}}</ion-chip>
+          <ion-chip class="" @click="filterCategory = ''" v-show="filterCategory === ''">{{ $t('All')}}</ion-chip>
         </div>
         <div v-for="category in categories" :key="category.id">
-          <ion-chip @click="filterCategory = category.name">{{ category.name }}</ion-chip>
+          <ion-chip @click="toggleCategory(category.name)" v-show="filterCategory === category.name || filterCategory === ''">{{ category.name }}<ion-icon :icon="closeCircle" v-show="filterCategory === category.name" @click="removeFilterCategory"></ion-icon></ion-chip>
         </div>
       </div>
       <div v-if="filtreredCoupons.length > 0">
@@ -171,7 +171,7 @@ import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard';
 import { Share } from '@capacitor/share';
-import { search, close } from 'ionicons/icons'
+import { search, close, closeCircle } from 'ionicons/icons'
 import EmptyScreen from '@/components/EmptyScreen.vue'
 
 export default defineComponent({
@@ -246,12 +246,21 @@ export default defineComponent({
         this.fetchNextPage();
         e.target.complete()
       }, 3000);
+    },
+
+    toggleCategory(category){
+      if(this.filterCategory === ''){
+        this.filterCategory = category;
+      }else{
+        this.filterCategory = '';
+      }
     }
   },
   setup() {
     return {
       search,
-      close
+      close,
+      closeCircle
     }
   }
 })
