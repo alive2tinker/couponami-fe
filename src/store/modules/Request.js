@@ -1,12 +1,21 @@
 import axios from 'axios';
 import store from '../index';
 import router from '../../router'
+import { Preferences } from '@capacitor/preferences';
 
 export default () => {
     let rHeaders = {};
-
+    let token = '';
     try{
-        let token = store.state.auth.user != null ? store.state.auth.user.token : '';
+        //eslint-disable-next-line no-unused-vars
+        const getToken = async () => {
+            const { value } = await Preferences.get({ key: 'token' });
+
+           token = value;
+            console.log(`token before sent ${token}`)
+        };
+        getToken()
+        console.log(`token before sent ${token}`)
         rHeaders = {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json'

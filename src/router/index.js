@@ -74,9 +74,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  /* eslint-disable-next-line no-unused-vars */
-  const user = await Preferences.get({key:'user'});
-  if(to.meta.isGuarded && user.token === null){
+  const user = await Preferences.get({key:'token'});
+  if(to.meta.isGuarded && user === null){
     next({name: 'Login'})
   }else{
     next();

@@ -109,10 +109,10 @@ import EmptyScreen from '@/components/EmptyScreen.vue';
 
 const store = useStore();
 let favorites = computed(() => { return store.getters['favorites/all'] })
-
+let user = computed(() => { return store.getters['auth/user']})
 
 onMounted(() => {
-  store.dispatch('favorites/fetchFavorites')
+  store.dispatch('favorites/fetchFavorites', user.value.id)
 })
 
 let currentCoupon = ref('')

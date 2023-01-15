@@ -27,10 +27,10 @@
         <p class="text-center text-zinc-500 py-4">{{ $t(message) }}</p>
         <div class="flex justify-between">
           <div class="flex-1">
-            <ion-button fill="outline" expand="block">{{ $t('Login') }}</ion-button>
+            <ion-button @click="navigateToAuthentication('Login')" fill="outline" expand="block">{{ $t('Login') }}</ion-button>
           </div>
           <div class="flex-1">
-            <ion-button @click="navigateToAuthentication" expand="block">{{ $t('Register') }}</ion-button>
+            <ion-button @click="navigateToAuthentication('registration')" expand="block">{{ $t('Register') }}</ion-button>
           </div>
         </div>
       </ion-content>
@@ -42,13 +42,16 @@
 import { IonButton, IonModal, IonTabBar, IonTabButton, IonTabs, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { starOutline, addCircleOutline, homeOutline, menuOutline } from 'ionicons/icons';
 import { onBeforeRouteUpdate, useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 let message = ref('');
 let authModalOpen = ref(false);
 const router = useRouter();
+const store = useStore();
+const token = computed(() => store.getters['auth/token'])
 onBeforeRouteUpdate(async (to) => {
-  if (to.meta.isGuarded) {
+  if (to.meta.isGuarded && token.value !== '') {
     switch (to.name) {
       case 'favorites':
         message.value = 'You can favorite coupons when logged in'
@@ -64,9 +67,9 @@ onBeforeRouteUpdate(async (to) => {
   }
 })
 
-const navigateToAuthentication = () => {
+const navigateToAuthentication = (routeName) => {
   authModalOpen.value = false;
-  router.push({ name: 'registration' })
+  router.push({ name: routeName })
 }
 </script>
 <style scoped>
