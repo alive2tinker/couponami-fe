@@ -23,9 +23,10 @@
                 <div class="flex h-64">
                     <div class="m-auto flex-1 space-y-3">
                         <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
-                            :placeholder="$t('Username or phone number')"></ion-input>
-                        <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
-                            :placeholder="$t('Password')"></ion-input>
+                            :placeholder="$t('Username or phone number')" v-model="form.email"></ion-input>
+                            <p class="text-red-500 text-sm" v-show="'email' in errors">{{ $t('invalid credentials')}}</p>
+                        <ion-input type="password" class="border-2 border-zinc-200 rounded-xl indent-2"
+                            :placeholder="$t('Password')" v-model="form.password"></ion-input>
                             <ion-button fill="clear" id="forgotPasswordButton">{{ $t('Forgot Password')}}</ion-button>
                     </div>
                 </div>
@@ -38,22 +39,62 @@
             </div>
         </ion-content>
         <ion-footer :translucent="true" class="ion-no-border ion-padding">
-                <ion-button color="primary" expand="block" :disabled="signInDisabled">{{ $t('Sign In')}}</ion-button>
+                <ion-button color="primary" expand="block" :disabled="signInDisabled" @click="signIn">{{ $t('Sign In')}}</ion-button>
             </ion-footer>
     </ion-page>
 </template>
-<script setup>
+<script>
 import { IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton } from '@ionic/vue';
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { defineComponent } from 'vue';
+import { mapActions, mapGetters } from 'vuex';
+import { Device } from '@capacitor/device';
 
-let signInDisabled = ref(true);
+export default defineComponent({
+    components:{
+        IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton
+    },
+    computed:{
+        signInDisabled(){
+            return this.form.username == '' || this.form.password == ''
+        },
+        ...mapGetters({
 
-const router = useRouter();
+        })
+    },
+    data(){
+        return {
+            form:{
+                email: '',
+                password: '',
+                device_name:''
+            },
+            errors:[]
+        }
+    },
+    methods: {
+        ...mapActions({
+            login: 'auth/login'
+        }),
+        async signIn(){
 
-function goToRegistration(){
-    router.push({name: 'registration'})
-}
+            let tDeviceName = await Device.getId();
+            this.form.device_name = tDeviceName.uuid;
+            this.login(this.form).then(() => {
+                this.$router.push({name: 'home'})
+            }).catch((err) => {
+                this.errors = err;
+                console.log(JSON.stringify(err));
+            })
+        }
+    },
+    setup(){
+        const router = useRouter();
+        return {
+            router
+        }
+    }
+})
 </script>
 <style scoped>
 #forgotPasswordButton{
