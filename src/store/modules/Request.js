@@ -15,7 +15,7 @@ export default () => {
             console.log(`token before sent ${token}`)
         };
         getToken()
-        console.log(`token before sent ${token}`)
+        console.log(`token before sent after method call ${token}`)
         rHeaders = {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json'

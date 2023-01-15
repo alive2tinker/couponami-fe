@@ -5,10 +5,7 @@ const AuthModule = {
   namespaced: true,
 
   state: () => ({
-    user: {
-      id: 2,
-      name:  'abdulmalik'
-    },
+    user: {},
     userToken: ''
   }),
 
@@ -24,7 +21,6 @@ const AuthModule = {
   actions: {
     login({commit}, data){
       return new Promise((resolve, reject) => {
-        console.log(data);
         Request().post('login', data).then((response) => {
           commit('SET_TOKEN', response.data.split('|')[1]);
           const setName = async () => {
@@ -33,12 +29,11 @@ const AuthModule = {
               value: response.data.split('|')[1],
             });
           };
-          setName().then(() => {
-            Request().get('user').then((response) => {
-              commit('SET_USER', response.data);
-            })
-            resolve(response);
+          setName()
+          Request().get('user').then((response) => {
+            commit('SET_USER', response.data);
           })
+          resolve(response);
         }).catch((err) => {
           reject(err.response.data.errors);
         })

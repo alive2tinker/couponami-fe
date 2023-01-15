@@ -97,6 +97,9 @@
             <ion-button shape="round" class="flex-1">
               <h1 class="text-2xl font-bold">{{ currentCoupon.code ?? '' }}</h1>
             </ion-button>
+            <ion-button shape="round" @click="favorCoupon(currentCoupon.id)">
+              <ion-icon :icon="star"></ion-icon>
+            </ion-button>
             <!-- copy button -->
             <ion-button shape="round" @click="copyCode(currentCoupon.code)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -171,7 +174,7 @@ import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard';
 import { Share } from '@capacitor/share';
-import { search, close, closeCircle } from 'ionicons/icons'
+import { search, close, closeCircle, star } from 'ionicons/icons'
 import EmptyScreen from '@/components/EmptyScreen.vue'
 
 export default defineComponent({
@@ -182,7 +185,8 @@ export default defineComponent({
     ...mapGetters({
       coupons: 'coupons/all',
       categories: 'categories/all',
-      searchedCoupons: 'coupons/searched'
+      searchedCoupons: 'coupons/searched',
+      user: 'auth/user'
     }),
     filtreredCoupons(){
       if(this.filterCategory !== '')
@@ -211,7 +215,8 @@ export default defineComponent({
     ...mapActions({
       fetchCoupons: 'coupons/fetchCoupons',
       fetchCategories: 'categories/fetchCategories',
-      searchCoupons: 'coupons/searchCoupons'
+      searchCoupons: 'coupons/searchCoupons',
+      registerFavorite: 'favorites/registerFavorite'
     }),
     showCouponDetails(coupon) {
       this.currentCoupon = coupon;
@@ -254,13 +259,22 @@ export default defineComponent({
       }else{
         this.filterCategory = '';
       }
+    },
+    favorCoupon(coupon){
+      console.log(JSON.stringify(this.user));
+      this.registerFavorite({userID: this.user.id, couponID: coupon}).then(() => {
+        this.presentToast('favorited successfully', 'bottom')
+      }).catch((err) => {
+        this.presentToast(err.response.data.message, 'bottom')
+      });
     }
   },
   setup() {
     return {
       search,
       close,
-      closeCircle
+      closeCircle,
+      star
     }
   }
 })

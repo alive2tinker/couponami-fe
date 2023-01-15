@@ -51,7 +51,7 @@ const router = useRouter();
 const store = useStore();
 const token = computed(() => store.getters['auth/token'])
 onBeforeRouteUpdate(async (to) => {
-  if (to.meta.isGuarded && token.value !== '') {
+  if (to.meta.isGuarded && (token.value === '' || token.value === undefined)) {
     switch (to.name) {
       case 'favorites':
         message.value = 'You can favorite coupons when logged in'
