@@ -42,16 +42,19 @@
 import { IonButton, IonModal, IonTabBar, IonTabButton, IonTabs, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { starOutline, addCircleOutline, homeOutline, menuOutline } from 'ionicons/icons';
 import { onBeforeRouteUpdate, useRouter } from 'vue-router';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
+import { Preferences } from '@capacitor/preferences';
 import { useStore } from 'vuex';
 
 let message = ref('');
 let authModalOpen = ref(false);
 const router = useRouter();
 const store = useStore();
-const token = computed(() => store.getters['auth/token'])
 onBeforeRouteUpdate(async (to) => {
-  if (to.meta.isGuarded && (token.value === '' || token.value === undefined)) {
+  const user = await Preferences.get({ key: 'user' });
+  let userObject = JSON.parse(user.value);
+  store.commit('auth/SET_USER', userObject);
+  if ((userObject === undefined) && to.meta.isGuarded && (userObject?.token === '' || userObject?.token === undefined)) {
     switch (to.name) {
       case 'favorites':
         message.value = 'You can favorite coupons when logged in'

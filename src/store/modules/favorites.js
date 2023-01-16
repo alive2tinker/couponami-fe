@@ -1,5 +1,6 @@
 
-import Request from "./Request";
+// import Request from "./Request";
+import {getRequest} from './Request'
 const FavoritesModule = {
     namespaced: true,
 
@@ -16,7 +17,7 @@ const FavoritesModule = {
     actions: {
         fetchFavorites({ commit }, user) {
             return new Promise((resolve, reject) => {
-                Request().get(`users/${user}/favorites`).then((res) => {
+                Request().get(`user/${user}/favorites`).then((res) => {
                     commit('SET_FAVORITES', res.data.data);
                     resolve();
                 }).catch((err) => {

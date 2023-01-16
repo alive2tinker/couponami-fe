@@ -22,17 +22,14 @@ const AuthModule = {
     login({commit}, data){
       return new Promise((resolve, reject) => {
         Request().post('login', data).then((response) => {
-          commit('SET_TOKEN', response.data.split('|')[1]);
+          commit('SET_USER', response.data);
           const setName = async () => {
             await Preferences.set({
-              key: 'token',
-              value: response.data.split('|')[1],
+              key: 'user',
+              value: JSON.stringify(response.data),
             });
           };
           setName()
-          Request().get('user').then((response) => {
-            commit('SET_USER', response.data);
-          })
           resolve(response);
         }).catch((err) => {
           reject(err.response.data.errors);
@@ -45,9 +42,6 @@ const AuthModule = {
     SET_USER(state, data){
       state.user = data;
     },
-    SET_TOKEN(state, data){
-      state.userToken = data
-    }
   }
 };
 
