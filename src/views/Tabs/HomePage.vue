@@ -164,6 +164,7 @@
           </ion-card>
         </div>
       </ion-modal>
+      <div class="w-screen h-24"></div>
     </ion-content>
   </ion-page>
 </template>

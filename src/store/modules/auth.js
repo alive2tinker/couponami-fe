@@ -35,6 +35,16 @@ const AuthModule = {
           reject(err.response.data.errors);
         })
       })
+    },
+    registerUser({commit}, data){
+      return new Promise((resolve, reject) => {
+        Request().post('register', data).then((response) => {
+          commit('SET_USER', response.data);
+          resolve();
+        }).catch((err) => {
+          reject(err);
+        })
+      })
     }
   },
 

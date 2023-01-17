@@ -57,6 +57,7 @@
       <div class="ion-padding">
         <ion-button expand="block" @click="submitCouponForm">{{ $t('Submit')}}</ion-button>
       </div>
+      <div class="w-screen h-28"></div>
     </ion-content>
   </ion-page>
 </template>

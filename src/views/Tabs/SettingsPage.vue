@@ -29,6 +29,7 @@
                     <ion-label>{{ $t('Rate Us')}}</ion-label>
                 </ion-item>
             </ion-list>
+            <div class="w-screen h-24"></div>
         </ion-content>
     </ion-page>
 </template>

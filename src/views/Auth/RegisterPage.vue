@@ -51,9 +51,11 @@
                 <ion-text>
                     <p class="text-sm text-zinc-600">{{ $t('Enter the four-digit code that was sent to you at {phone}', {phone:this.form.phone})}}</p>
                 </ion-text>
-                <v-otp-input ref="otpInput" input-classes="otp-input" separator="-" :num-inputs="4"
-                    :should-auto-focus="true" :is-input-num="true" :conditionalClass="['one', 'two', 'three', 'four']"
-                    @on-change="handleOnChange" @on-complete="handleOnComplete" />
+                <div class="py-7">
+                    <v-otp-input ref="otpInput" input-classes="otp-input" separator="" :num-inputs="6"
+                    :should-auto-focus="true" :is-input-num="true" :conditionalClass="['one', 'two', 'three', 'four','five','six']"
+                    @on-change="handleOnChange" @on-complete="confirmOTP" />
+                </div>
             </div>
             <div id="sign-in-button" style="display:none"></div>
         </ion-content>
@@ -61,10 +63,6 @@
             <ion-button color="primary" expand="block" :disabled="!registrationDisabled" @click="signIn"
                 v-show="!smsSent">{{
                     $t('Register')
-                }}</ion-button>
-            <ion-button color="primary" expand="block" :disabled="!registrationDisabled" @click="confirmOTP"
-                v-show="smsSent">{{
-    $t('Verify OTP')
                 }}</ion-button>
         </ion-footer>
     </ion-page>
@@ -98,7 +96,7 @@ export default defineComponent({
                 password: '123456',
                 passwordConfirmation: '123456'
             },
-            smsSent: true,
+            smsSent: false,
             appVerifier: '',
             otp: '',
             confirmationResult: ''
@@ -109,7 +107,7 @@ export default defineComponent({
     },
     methods: {
         ...mapActions({
-
+            registerUser: 'auth/registerUser'
         }),
         signIn() {
             const auth = getAuth();
@@ -129,8 +127,9 @@ export default defineComponent({
                     alert(error);
                 });
         },
-        confirmOTP() {
-            this.confirmationResult.confirm(this.otp).then(() => {
+        confirmOTP(value) {
+            this.confirmationResult.confirm(value).then(() => {
+                this.registerUser(this.form);
                 this.$router.push({ name: 'home' })
             }).catch((err) => {
                 alert(JSON.stringify(err))
@@ -151,7 +150,7 @@ export default defineComponent({
     }
 })
 </script>
-<style scoped>
+<style>
 #forgotPasswordButton {
     --padding-start: 0
 }
@@ -159,5 +158,18 @@ export default defineComponent({
 #registerButton {
     --padding-start: 0;
     --padding-end: 0;
+}
+
+.otp-input{
+    border: 2px solid #7e7e7e;
+    width: 75% !important;
+    height: 5rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+.otp-input:focus{
+    outline: none !important;
+    border: 2px solid var(--ion-color-primary);
 }
 </style>

@@ -49,12 +49,14 @@ import { useStore } from 'vuex';
 let message = ref('');
 let authModalOpen = ref(false);
 const router = useRouter();
+/* eslint-disable-next-line no-unused-vars */
 const store = useStore();
 onBeforeRouteUpdate(async (to) => {
   const user = await Preferences.get({ key: 'user' });
   let userObject = JSON.parse(user.value);
-  store.commit('auth/SET_USER', userObject);
-  if ((userObject === undefined) && to.meta.isGuarded && (userObject?.token === '' || userObject?.token === undefined)) {
+  console.log(`userOBject: ${userObject}`)
+  // store.commit('auth/SET_USER', userObject);
+  if (userObject === null && to.meta.isGuarded) {
     switch (to.name) {
       case 'favorites':
         message.value = 'You can favorite coupons when logged in'

@@ -97,6 +97,7 @@
           <ion-button fill="clear" color="danger">{{ $t('Not working?') }}</ion-button>
         </ion-content>
       </ion-modal>
+      <div class="w-screen h-24"></div>
     </ion-content>
   </ion-page>
 </template>
