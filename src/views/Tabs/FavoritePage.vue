@@ -112,6 +112,7 @@ let favorites = computed(() => { return store.getters['favorites/all'] })
 let user = computed(() => { return store.getters['auth/user']})
 
 onMounted(() => {
+  console.log(`will fetch favorites now`);
   store.dispatch('favorites/fetchFavorites', user.value.id)
 })
 
