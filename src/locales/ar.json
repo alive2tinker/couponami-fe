@@ -24,5 +24,6 @@
   "Favorites": "المفضلة",
   "Details": "التفاصيل",
   "Settings":"الاعدادات",
-  "Dark Mode":"النمط الداكن"
+  "Dark Mode":"النمط الداكن",
+  "Enter the four-digit code that was sent to you at {phone}":"ادخل الرمز المكون من اربعة ارقام والمرسل على الهاتف {phone}"
 }
