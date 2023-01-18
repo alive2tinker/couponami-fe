@@ -54,8 +54,7 @@ const store = useStore();
 onBeforeRouteUpdate(async (to) => {
   const user = await Preferences.get({ key: 'user' });
   let userObject = JSON.parse(user.value);
-  console.log(`userOBject: ${userObject}`)
-  // store.commit('auth/SET_USER', userObject);
+  store.commit('auth/SET_USER', userObject);
   if (userObject === null && to.meta.isGuarded) {
     switch (to.name) {
       case 'favorites':

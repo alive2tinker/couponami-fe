@@ -25,6 +25,11 @@ const routes = [
     component: () => import("@/views/Auth/ForgotPasswordPage.vue"),
   },
   {
+    path: '/language-selection',
+    name: "languageSelection",
+    component: () => import("@/views/Settings/LanguageSelectionPage.vue")
+  },
+  {
     path: "/tabs/",
     component: TabsPage,
     children: [

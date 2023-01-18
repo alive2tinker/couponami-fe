@@ -20,7 +20,8 @@ function loadLocaleMessages() {
 }
 
 export default createI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
+  allowComposition: true,
+  locale: process.env.VUE_APP_I18N_LOCALE || 'ar',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: loadLocaleMessages()
 })

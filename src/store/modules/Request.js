@@ -2,15 +2,16 @@ import axios from "axios";
 import store from "../index";
 import router from "../../router";
 
+
+
 export default () => {
   let token = store.state.auth.user.token;
-
-  console.log(`here is token after capacitor${token}`)
   
   let rHeaders = {
     Authorization: `Bearer ${token}`,
     Accept: "application/json",
   };
+
   
   const request = axios.create({
     baseURL:
@@ -20,15 +21,15 @@ export default () => {
     headers: rHeaders,
   });
 
-  request.interceptors.request.use((request) => {
-    console.log("Starting Request", JSON.stringify(request, null, 2));
-    return request;
-  });
+  // request.interceptors.request.use((request) => {
+  //   console.log("Starting Request", JSON.stringify(request, null, 2));
+  //   return request;
+  // });
 
-  request.interceptors.response.use((response) => {
-    console.log("Response:", JSON.stringify(response, null, 2));
-    return response;
-  });
+  // request.interceptors.response.use((response) => {
+  //   console.log("Response:", JSON.stringify(response, null, 2));
+  //   return response;
+  // });
 
   request.interceptors.response.use(
     function (response) {
