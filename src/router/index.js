@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import TabsPage from "../views/Tabs/TabsPage.vue";
 import { Preferences } from '@capacitor/preferences';
-// import store from '../store';
-
+import store from '../store'
 
 const routes = [
   {
@@ -79,6 +78,9 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const locale = await Preferences.get({key: 'locale'});
+  console.log(`before each locale: ${locale.value}`)
+  store.commit('auth/SET_LANG', locale.value);
   const user = await Preferences.get({key:'token'});
   if(to.meta.isGuarded && user === null){
     next({name: 'Login'})

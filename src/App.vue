@@ -15,7 +15,9 @@ export default defineComponent({
     IonApp, IonRouterOutlet
   },
   async mounted() {
-    document.body.setAttribute('dir', this.$root.$i18n.locale === 'ar' ? 'rtl' : 'ltr')
+    const locale = await Preferences.get({key: 'locale'});
+    this.$i18n.locale = locale.value
+    document.body.setAttribute('dir', locale.value === 'ar' ? 'rtl' : 'ltr')
     const user = await Preferences.get({ key: 'user' });
     let userObject = JSON.parse(user.value);
     this.updateUser(userObject);

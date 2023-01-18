@@ -1,4 +1,5 @@
 import Request from "./Request";
+import store from "..";
 
 const CategoriesModule = {
     namespaced: true,
@@ -16,7 +17,7 @@ const CategoriesModule = {
     actions: {
         fetchCategories({ commit }) {
             return new Promise((resolve, reject) => {
-                Request().get('categories').then((res) => {
+                Request().get(`${store.state.auth.language}/categories`).then((res) => {
                     commit('SET_CATEGORIES', res.data.data);
                     resolve();
                 }).catch((err) => {

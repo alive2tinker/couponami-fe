@@ -172,11 +172,12 @@
 <script>
 import {  IonInfiniteScroll, IonInfiniteScrollContent, IonChip, IonIcon, IonInput, IonButtons, IonModal, toastController, IonButton, IonText, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard';
 import { Share } from '@capacitor/share';
 import { search, close, closeCircle, star } from 'ionicons/icons'
 import EmptyScreen from '@/components/EmptyScreen.vue'
+import { Preferences } from '@capacitor/preferences';
 
 export default defineComponent({
   components: {
@@ -203,9 +204,14 @@ export default defineComponent({
       filterCategory: ''
     }
   },
-  mounted() {
+  ionViewWillEnter() {
     this.fetchCoupons();
     this.fetchCategories();
+  },
+  async mounted() {
+    const locale = await Preferences.get({key: 'locale'});
+    this.updateLanguage(locale.value);
+    console.log(`locale before request categories ${locale.value}`)
   },
   watch:{
     keyword(newKeyword){
@@ -218,6 +224,9 @@ export default defineComponent({
       fetchCategories: 'categories/fetchCategories',
       searchCoupons: 'coupons/searchCoupons',
       registerFavorite: 'favorites/registerFavorite'
+    }),
+    ...mapMutations({
+      updateLanguage: 'auth/SET_LANG'
     }),
     showCouponDetails(coupon) {
       this.currentCoupon = coupon;

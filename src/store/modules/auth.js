@@ -6,7 +6,8 @@ const AuthModule = {
 
   state: () => ({
     user: {},
-    userToken: ''
+    userToken: '',
+    language: 'ar'
   }),
 
   getters: {
@@ -52,6 +53,9 @@ const AuthModule = {
     SET_USER(state, data){
       state.user = data;
     },
+    SET_LANG(state, data){
+      state.language = data;
+    }
   }
 };
 

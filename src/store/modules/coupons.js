@@ -1,5 +1,5 @@
 import Request from './Request';
-
+import store from '..';
 const CouponsModule = {
     namespaced: true,
 
@@ -20,7 +20,7 @@ const CouponsModule = {
     actions: {
         fetchCoupons({ commit }) {
             return new Promise((resolve, reject) => {
-                Request().get('coupons', { params: { include: 'favorites' } }).then((res) => {
+                Request().get(`${store.state.auth.language}/coupons`, { params: { include: 'favorites' } }).then((res) => {
                     commit('SET_COUPONS', res.data.data);
                     resolve();
                 }).catch((err) => {
