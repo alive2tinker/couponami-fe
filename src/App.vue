@@ -16,7 +16,14 @@ export default defineComponent({
   },
   async mounted() {
     const locale = await Preferences.get({key: 'locale'});
-    this.$i18n.locale = locale.value
+    if(!locale){
+      await Preferences.set({
+        key: 'locale',
+        value: this.$i18n.locale
+      })
+    }else{
+      this.$i18n.locale = locale.value
+    }
     document.body.setAttribute('dir', locale.value === 'ar' ? 'rtl' : 'ltr')
     const user = await Preferences.get({ key: 'user' });
     let userObject = JSON.parse(user.value);
