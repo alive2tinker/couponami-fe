@@ -8,7 +8,10 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Home</ion-title>
+          <div class="flex">
+            <img class="w-16 h-16" src="@/assets/images/nuIcon.png" alt="">
+            <h1 class="text-2xl font-bold my-4">{{ $t('Couponami')}}</h1>
+          </div>
           <ion-buttons slot="end">
             <ion-button id="start-search">
               <ion-icon :icon="search" />
@@ -21,7 +24,7 @@
           <ion-chip class="" @click="filterCategory = ''" v-show="filterCategory === ''">{{ $t('All')}}</ion-chip>
         </div>
         <div v-for="category in categories" :key="category.id">
-          <ion-chip @click="toggleCategory(category.name)" v-show="filterCategory === category.name || filterCategory === ''">{{ category.name }}<ion-icon :icon="closeCircle" v-show="filterCategory === category.name" @click="removeFilterCategory"></ion-icon></ion-chip>
+          <ion-chip :class="{ 'bg-sky-500': filterCategory === category.name }" @click="toggleCategory(category.name)" v-show="filterCategory === category.name || filterCategory === ''">{{ category.name }}<ion-icon :icon="closeCircle" v-show="filterCategory === category.name" @click="removeFilterCategory"></ion-icon></ion-chip>
         </div>
       </div>
       <div v-if="filtreredCoupons.length > 0">
@@ -207,6 +210,12 @@ export default defineComponent({
   ionViewWillEnter() {
     this.fetchCoupons();
     this.fetchCategories();
+    const syncDarkmode = async () => {
+      const { value } = await Preferences.get({ key: 'dark-theme' });
+      console.log(value);
+      document.body.setAttribute('color-scheme', value === 'true' ? "dark":"")
+    }
+    syncDarkmode();
   },
   async mounted() {
     const locale = await Preferences.get({key: 'locale'});

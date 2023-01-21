@@ -13,7 +13,7 @@ const CouponsModule = {
         all(state) {
             return state.coupons;
         },
-        searched(state){
+        searched(state) {
             return state.searchedCoupons;
         }
     },
@@ -29,7 +29,7 @@ const CouponsModule = {
                 })
             })
         },
-        searchCoupons({commit}, keyword){
+        searchCoupons({ commit }, keyword) {
             return new Promise((resolve, reject) => {
                 Request().post(`api/${store.state.auth.language}/coupons/search`, {
                     search: {
@@ -44,7 +44,7 @@ const CouponsModule = {
                 })
             })
         },
-        createCoupon({commit}, data){
+        createCoupon({ commit }, data) {
             return new Promise((resolve, reject) => {
                 Request().post('api/createCoupon', data).then((response) => {
                     commit('UPDATE_USER_COUPONS', response.data);
@@ -54,17 +54,18 @@ const CouponsModule = {
                 })
             })
         },
-        fetchNextPage({commit, getters}){
+        fetchNextPage({ commit, getters }) {
             return new Promise((resolve, reject) => {
-                if (getters.all.links.next === null)
+                if (getters.all.links.next === null) {
                     resolve();
-                    
-                Request().get(getters.all.links.next ?? '').then((res) => {
-                    commit('UPDATE_COUPONS', res.data);
-                    resolve();
-                }).catch((err) => {
-                    reject(err);
-                })
+                } else {
+                    Request().get(getters.all.links.next ?? '').then((res) => {
+                        commit('UPDATE_COUPONS', res.data);
+                        resolve();
+                    }).catch((err) => {
+                        reject(err);
+                    })
+                }
             })
         }
     },
@@ -73,10 +74,10 @@ const CouponsModule = {
         SET_COUPONS(state, data) {
             state.coupons = data;
         },
-        SET_SEARCHED_COUPONS(state, data){
+        SET_SEARCHED_COUPONS(state, data) {
             state.searchedCoupons = data;
         },
-        UPDATE_COUPONS(state, data){
+        UPDATE_COUPONS(state, data) {
             state.coupons.data.push(data.data);
             state.coupons.links = data.links;
         }

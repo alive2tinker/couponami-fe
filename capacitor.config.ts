@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'couponami-fe',
+  appId: 'com.sa.juhd.couponami.app',
+  appName: 'couponami',
   webDir: 'dist',
   bundledWebRuntime: false,
   plugins: {

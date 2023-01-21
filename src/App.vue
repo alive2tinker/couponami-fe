@@ -16,12 +16,16 @@ export default defineComponent({
   components: {
     IonApp, IonRouterOutlet
   },
+  ionViewWillEnter() {
+    const syncDarkmode = async () => {
+      const { value } = await Preferences.get({ key: 'dark-theme' });
+      console.log(value);
+      document.body.setAttribute('color-scheme', value)
+    }
+    syncDarkmode();
+  },
   async mounted() {
-    const darkMode = await Preferences.get({ key: 'dark-theme' });
-    console.log(darkMode)
-    if(darkMode && darkMode === 'true')
-      document.body.setAttribute('color-scheme', "dark")
-
+    ScreenOrientation.lock()
     this.getCSRF();
     const locale = await Preferences.get({ key: 'locale' });
     if (!locale) {
@@ -49,7 +53,7 @@ export default defineComponent({
     const addListeners = async () => {
       await PushNotifications.addListener('registration', token => {
         console.info('Registration token: ', token.value);
-        axios.post(`${process.env.VUE_APP_PRODUCTION_URL}/api/registerToken`,{
+        axios.post(`${process.env.VUE_APP_PRODUCTION_URL}/api/registerToken`, {
           notifyToken: token.value
         }).then(() => {
           alert('push notification registration successful');

@@ -8,7 +8,10 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">{{ $t('Favorites') }}</ion-title>
+          <div class="flex">
+            <img class="w-16 h-16" src="@/assets/images/nuIcon.png" alt="">
+            <h1 class="text-2xl font-bold my-4">{{ $t('Favorites')}}</h1>
+          </div>
         </ion-toolbar>
       </ion-header>
       <div v-if="favorites.length > 0">

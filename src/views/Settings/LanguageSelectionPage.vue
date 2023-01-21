@@ -30,12 +30,12 @@
     </ion-page>
 </template>
 <script>
-import { IonPage, IonContent, IonButtons, IonToolbar, IonBackButton, IonHeader, IonTitle } from '@ionic/vue';
+import { IonPage, IonCheckbox, IonContent, IonButtons, IonToolbar, IonBackButton, IonHeader, IonTitle } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 export default defineComponent({
     components: {
-        IonPage, IonContent, IonButtons, IonToolbar, IonBackButton, IonHeader, IonTitle
+        IonPage, IonContent, IonButtons, IonToolbar, IonBackButton, IonHeader, IonTitle, IonCheckbox
     },
     methods: {
         async changeLocale(nuLocale) {
