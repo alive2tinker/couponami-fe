@@ -31,6 +31,7 @@ import i18n from "./i18n";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { Preferences } from "@capacitor/preferences";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -58,6 +59,15 @@ const app = createApp(App)
     mode: "ios",
   })
   .use(router);
+
+  const setLocale = async() => {
+    await Preferences.set({
+      key:'locale',
+      value: 'ar'
+    })
+  }
+
+  setLocale()
 
 router.isReady().then(() => {
   app.mount("#app");

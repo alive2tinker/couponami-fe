@@ -18,7 +18,7 @@ const FavoritesModule = {
     actions: {
         fetchFavorites({ commit }, user) {
             return new Promise((resolve, reject) => {
-                Request().get(`${store.state.auth.language}/user/${user}/favorites`).then((res) => {
+                Request().get(`api/${store.state.auth.language}/user/${user}/favorites`).then((res) => {
                     commit('SET_FAVORITES', res.data);
                     resolve();
                 }).catch((err) => {
@@ -30,7 +30,7 @@ const FavoritesModule = {
         registerFavorite({commit}, data){
             console.log(`before sending data ${data}`)
             return new Promise((resolve, reject) => {
-                Request().post(`favoriteCoupon/${data.userID}/${data.couponID}`).then((response) => {
+                Request().post(`api/favoriteCoupon/${data.userID}/${data.couponID}`).then((response) => {
                     resolve(response);
                 }).catch((err) => {
                     reject(err);

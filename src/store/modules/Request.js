@@ -5,7 +5,7 @@ import router from "../../router";
 
 
 export default () => {
-  let token = store.state.auth.user.token;
+  let token = store.state.auth.user?.token;
   
   let rHeaders = {
     Authorization: `Bearer ${token}`,

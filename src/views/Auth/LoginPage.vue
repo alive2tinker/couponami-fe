@@ -74,17 +74,19 @@ export default defineComponent({
     },
     methods: {
         ...mapActions({
-            login: 'auth/login'
+            login: 'auth/login',
+            
         }),
         async signIn(){
 
             let tDeviceName = await Device.getId();
             this.form.device_name = tDeviceName.uuid;
+            console.log(JSON.stringify(this.form));
             this.login(this.form).then(() => {
                 this.$router.push({name: 'home'})
             }).catch((err) => {
-                this.errors = err;
-                console.log(JSON.stringify(err));
+                // this.errors = err;
+                alert(err);
             })
         }
     },

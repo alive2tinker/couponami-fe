@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1092372859514",
+    "project_id": "couponami-6c0c1",
+    "storage_bucket": "couponami-6c0c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092372859514:android:6baaf81283bda1dbb709c3",
+        "android_client_info": {
+          "package_name": "com.couponami.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092372859514-rll3tmls61dg40acmpoq1qfo2ttu9kql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYFWkAwKRmfPRpLWe1Q852OmSB_vtj0J4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092372859514-rll3tmls61dg40acmpoq1qfo2ttu9kql.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1092372859514-gf03d5eknfq7bgsqt6k380rltc844bhu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.couponami.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

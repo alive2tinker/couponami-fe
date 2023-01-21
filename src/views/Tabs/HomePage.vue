@@ -11,7 +11,7 @@
           <ion-title size="large">Home</ion-title>
           <ion-buttons slot="end">
             <ion-button id="start-search">
-              <ion-icon :icon="search" color="secondary" />
+              <ion-icon :icon="search" />
             </ion-button>
           </ion-buttons>
         </ion-toolbar>
@@ -192,9 +192,9 @@ export default defineComponent({
     }),
     filtreredCoupons(){
       if(this.filterCategory !== '')
-        return this.coupons.filter((s) => s.category.name === this.filterCategory);
+        return this.coupons.data.filter((s) => s.category.name === this.filterCategory);
 
-      return this.coupons;
+      return this.coupons.data ?? [];
     }
   },
   data() {
@@ -221,6 +221,7 @@ export default defineComponent({
   methods: {
     ...mapActions({
       fetchCoupons: 'coupons/fetchCoupons',
+      fetchNextPage: 'coupons/fetchNextPage',
       fetchCategories: 'categories/fetchCategories',
       searchCoupons: 'coupons/searchCoupons',
       registerFavorite: 'favorites/registerFavorite'
@@ -257,10 +258,12 @@ export default defineComponent({
     },
 
     nextPage(e){
-      setTimeout(() => {
-        this.fetchNextPage();
-        e.target.complete()
-      }, 3000);
+      this.fetchNextPage().then(() => {
+        e.target.complete();
+      }).catch((err) => {
+        this.presentToast(err, 'bottom')
+        e.target.complete();
+      })
     },
 
     toggleCategory(category){

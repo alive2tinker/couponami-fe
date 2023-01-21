@@ -11,9 +11,6 @@ const AuthModule = {
   }),
 
   getters: {
-    token(state){
-      return state.userToken;
-    },
     user(state){
       return state.user;
     }
@@ -21,8 +18,8 @@ const AuthModule = {
 
   actions: {
     login({commit}, data){
-      return new Promise((resolve, reject) => {
-        Request().post('login', data).then((response) => {
+      return new Promise((resolve) => {
+        Request().post('api/login', data).then((response) => {
           commit('SET_USER', response.data);
           const setName = async () => {
             await Preferences.set({
@@ -30,18 +27,29 @@ const AuthModule = {
               value: JSON.stringify(response.data),
             });
           };
-          setName()
+          setName().then(() => {
+            resolve(response);
+          })
           resolve(response);
-        }).catch((err) => {
-          reject(err.response.data.errors);
         })
       })
     },
     registerUser({commit}, data){
       return new Promise((resolve, reject) => {
-        Request().post('register', data).then((response) => {
+        Request().post('api/register', data).then((response) => {
           commit('SET_USER', response.data);
           resolve();
+        }).catch((err) => {
+          reject(err);
+        })
+      })
+    },
+    getCSRF({commit}){
+      return new Promise((resolve, reject) => {
+        Request().get('sanctum/csrf-cookie').then((response) => {
+          console.log(`the response from csrf ${JSON.stringify(response) }`);
+          commit('SET_CSRF', response.data);
+          resolve(response);
         }).catch((err) => {
           reject(err);
         })

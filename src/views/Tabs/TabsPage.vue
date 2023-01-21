@@ -11,9 +11,9 @@
           <ion-icon :icon="starOutline" />
         </ion-tab-button>
 
-        <ion-tab-button tab="createCoupon" href="/tabs/createCoupon">
+        <!-- <ion-tab-button tab="createCoupon" href="/tabs/createCoupon">
           <ion-icon :icon="addCircleOutline" />
-        </ion-tab-button>
+        </ion-tab-button> -->
 
         <ion-tab-button tab="settings" href="/tabs/settings">
           <ion-icon :icon="menuOutline" />
@@ -40,7 +40,7 @@
 
 <script setup>
 import { IonButton, IonModal, IonTabBar, IonTabButton, IonTabs, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { starOutline, addCircleOutline, homeOutline, menuOutline } from 'ionicons/icons';
+import { starOutline, homeOutline, menuOutline } from 'ionicons/icons';
 import { onBeforeRouteUpdate, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { Preferences } from '@capacitor/preferences';

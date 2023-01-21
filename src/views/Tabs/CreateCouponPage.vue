@@ -18,11 +18,11 @@
         <ion-card-content class="-mt-7 px-1">
           <ion-item>
             <ion-label position="floating">{{ $t('Store Name')}}</ion-label>
-            <ion-input :placeholder="$t('Enter Store Name')"></ion-input>
+            <ion-input :placeholder="$t('Enter Store Name')" @ionInput="form.storeName = $event.target.value" :value="form.storeName"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating">{{ $t('Store Link')}}</ion-label>
-            <ion-input :placeholder="$t('Enter Store Link')"></ion-input>
+            <ion-input :placeholder="$t('Enter Store Link')" @ionInput="form.storeLink = $event.target.value" :value="form.storeLink"></ion-input>
           </ion-item>
           <input type="file"  id="logoFileUpload" hidden/>
           <ion-button @click="openFileUpload" fill="outline" expand="block">
@@ -38,15 +38,15 @@
         <ion-card-content class="-mt-7 px-1">
           <ion-item>
             <ion-label position="floating">{{ $t('Offer')}}</ion-label>
-            <ion-input :placeholder="$t('Enter Offer')"></ion-input>
+            <ion-input :placeholder="$t('Enter Offer')" @ionInput="form.offer = $event.target.value" :value="form.offer"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating">{{ $t('Code')}}</ion-label>
-            <ion-input :placeholder="$t('Enter Code')"></ion-input>
+            <ion-input :placeholder="$t('Enter Code')" @ionInput="form.code = $event.target.value" :value="form.code"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating">{{ $t('Details')}}</ion-label>
-            <ion-textarea :placeholder="$t('enter all the notes you need')"></ion-textarea>
+            <ion-textarea :placeholder="$t('enter all the notes you need')" @ionInput="form.details = $event.target.value" :value="form.details"></ion-textarea>
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -55,28 +55,48 @@
         <ion-label>{{ $t('I agree to the terms and conditions')  }}</ion-label>
       </ion-item>
       <div class="ion-padding">
-        <ion-button expand="block" @click="submitCouponForm">{{ $t('Submit')}}</ion-button>
+        <ion-button expand="block" @click="submitCouponForm" :disabled="!formCanBeSent">{{ $t('Submit')}}</ion-button>
       </div>
       <div class="w-screen h-28"></div>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup>
+<script>
 import { IonCheckbox, IonItem, IonCard, IonCardHeader, IonCardContent, IonCardSubtitle,IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import { cloudUploadOutline } from 'ionicons/icons';
-import { useStore } from 'vuex';
+import { defineComponent } from 'vue'
 
-function openFileUpload(){
-  document.getElementById('logoFileUpload').click();
-}
-
-const store = useStore();
-
-function submitCouponForm()
-{
-  store.dispatch('')
-}
+export default defineComponent({
+  components: {
+    IonCheckbox, IonItem, IonCard, IonCardHeader, IonCardContent, IonCardSubtitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent 
+  },
+  computed: {
+    formCanBeSent(){
+      let result = false;
+      Object.values(this.form).forEach((val) => {
+        result = result + (val !== '')
+      })
+      return result;
+    }
+  },
+  data(){
+    return {
+      form:{
+        storeName:'',
+        storeLink: '',
+        code: '',
+        offer: '',
+        details: ''
+      }
+    }
+  },
+  setup(){
+    return {
+      cloudUploadOutline
+    }
+  }
+})
 </script>
 <style scoped>
 ion-item{

@@ -17,7 +17,7 @@ const CategoriesModule = {
     actions: {
         fetchCategories({ commit }) {
             return new Promise((resolve, reject) => {
-                Request().get(`${store.state.auth.language}/categories`).then((res) => {
+                Request().get(`api/${store.state.auth.language}/categories`).then((res) => {
                     commit('SET_CATEGORIES', res.data.data);
                     resolve();
                 }).catch((err) => {

@@ -26,5 +26,8 @@
   "Settings":"الاعدادات",
   "Dark Mode":"النمط الداكن",
   "Enter the four-digit code that was sent to you at {phone}":"ادخل الرمز المكون من اربعة ارقام والمرسل على الهاتف {phone}",
-  "Language Selection":"اختيار اللغة"
+  "Language Selection":"اختيار اللغة",
+  "Upload Logo (Optional)":"تحميل الشعار (اختياري)",
+  "I agree to the terms and conditions":"أوافق على الشروط",
+  "search":"بحث"
 }

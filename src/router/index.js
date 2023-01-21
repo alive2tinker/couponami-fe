@@ -52,14 +52,14 @@ const routes = [
           isGuarded: true
         }
       },
-      {
-        path: "createCoupon",
-        name: "createCoupon",
-        component: () => import("@/views/Tabs/CreateCouponPage.vue"),
-        meta:{
-          isGuarded: true
-        }
-      },
+      // {
+      //   path: "createCoupon",
+      //   name: "createCoupon",
+      //   component: () => import("@/views/Tabs/CreateCouponPage.vue"),
+      //   meta:{
+      //     isGuarded: true
+      //   }
+      // },
       {
         path: "settings",
         name: "settings",
