@@ -63,6 +63,9 @@ const AuthModule = {
     },
     SET_LANG(state, data){
       state.language = data;
+    },
+    SET_CSRF(state, data){
+      state.csrf = data;
     }
   }
 };

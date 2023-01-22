@@ -60,9 +60,6 @@ onBeforeRouteUpdate(async (to) => {
       case 'favorites':
         message.value = 'You can favorite coupons when logged in'
         break;
-      case 'createCoupon':
-        message.value = 'You can favorite coupons when logged in'
-        break;
     }
     authModalOpen.value = true;
     return false

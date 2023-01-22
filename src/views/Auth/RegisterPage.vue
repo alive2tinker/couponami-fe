@@ -91,10 +91,10 @@ export default defineComponent({
     data() {
         return {
             form: {
-                username: 'aa',
-                phone: '+966548226392',
-                password: '123456',
-                passwordConfirmation: '123456'
+                username: '',
+                phone: '',
+                password: '',
+                passwordConfirmation: ''
             },
             smsSent: false,
             appVerifier: '',
@@ -167,6 +167,7 @@ export default defineComponent({
     border-radius: 1rem;
     text-align: center;
     margin-left: 0.5rem;
+    background-color: white;
 }
 .otp-input:focus{
     outline: none !important;

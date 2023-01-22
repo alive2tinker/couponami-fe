@@ -21,10 +21,10 @@
       </ion-header>
       <div class="flex overflow-x-scroll py-4">
         <div>
-          <ion-chip class="" @click="filterCategory = ''" v-show="filterCategory === ''">{{ $t('All')}}</ion-chip>
+          <ion-chip class="bg-sky-500 text-white" @click="filterCategory = ''" v-show="filterCategory === ''">{{ $t('All')}}</ion-chip>
         </div>
         <div v-for="category in categories" :key="category.id">
-          <ion-chip :class="{ 'bg-sky-500': filterCategory === category.name }" @click="toggleCategory(category.name)" v-show="filterCategory === category.name || filterCategory === ''">{{ category.name }}<ion-icon :icon="closeCircle" v-show="filterCategory === category.name" @click="removeFilterCategory"></ion-icon></ion-chip>
+          <ion-chip :class="{ 'bg-sky-500 text-white': filterCategory === category.name }" @click="toggleCategory(category.name)" v-show="filterCategory === category.name || filterCategory === ''">{{ category.name }}<ion-icon :icon="closeCircle" v-show="filterCategory === category.name" @click="removeFilterCategory"></ion-icon></ion-chip>
         </div>
       </div>
       <div v-if="filtreredCoupons.length > 0">
@@ -216,6 +216,21 @@ export default defineComponent({
       document.body.setAttribute('color-scheme', value === 'true' ? "dark":"")
     }
     syncDarkmode();
+
+    const syncLocale = async() => {
+      const locale = await Preferences.get({ key: 'locale' });
+      if (!locale) {
+        await Preferences.set({
+          key: 'locale',
+          value: this.$i18n.locale
+        })
+      } else {
+        this.$i18n.locale = locale.value
+      }
+      document.body.setAttribute('dir', locale.value === 'ar' ? 'rtl' : 'ltr')
+    }
+
+    syncLocale();
   },
   async mounted() {
     const locale = await Preferences.get({key: 'locale'});

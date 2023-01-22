@@ -15,19 +15,19 @@
             </ion-header>
             <div class="max-w-7xl mx-auto p-4">
                 <ion-text>
-                    <h1 class="font-bold text-3xl text-zinc-800">{{ $t("Let's Sign you in") }}</h1>
+                    <h1 class="font-bold text-3xl text-zinc-800 dark:text-zinc-300">{{ $t("Let's Sign you in") }}</h1>
                 </ion-text>
                 <ion-text>
-                    <p class="py-4 text-2xl font-thin text-zinc-600">{{  $t('Welcome back to your Couponami!') }}</p>
+                    <p class="py-4 text-2xl font-thin text-zinc-600 dark:text-zinc-300">{{  $t('Welcome back to your Couponami!') }}</p>
                 </ion-text>
                 <div class="flex h-64">
                     <div class="m-auto flex-1 space-y-3">
-                        <ion-input class="border-2 border-zinc-200 rounded-xl indent-2"
+                        <ion-input class="border-2 border-zinc-200 dark:border-zinc-600 rounded-xl indent-2"
                             :placeholder="$t('Username or phone number')" v-model="form.email"></ion-input>
                             <p class="text-red-500 text-sm" v-show="'email' in errors">{{ $t('invalid credentials')}}</p>
-                        <ion-input type="password" class="border-2 border-zinc-200 rounded-xl indent-2"
+                        <ion-input type="password" class="border-2 border-zinc-200 dark:border-zinc-600 rounded-xl indent-2"
                             :placeholder="$t('Password')" v-model="form.password"></ion-input>
-                            <ion-button fill="clear" id="forgotPasswordButton">{{ $t('Forgot Password')}}</ion-button>
+                            <ion-button @click="router.push({name:'forgotPassword'})" fill="clear" id="forgotPasswordButton">{{ $t('Forgot Password')}}</ion-button>
                     </div>
                 </div>
                 <div class="flex justify-between">
@@ -39,7 +39,7 @@
             </div>
         </ion-content>
         <ion-footer :translucent="true" class="ion-no-border ion-padding">
-                <ion-button color="primary" expand="block" :disabled="signInDisabled" @click="signIn">{{ $t('Sign In')}}</ion-button>
+                <ion-button color="primary" expand="block" :disabled="signInDisabled" @click="signIn">{{ $t('Login')}}</ion-button>
             </ion-footer>
     </ion-page>
 </template>

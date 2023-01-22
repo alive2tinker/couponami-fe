@@ -10,6 +10,7 @@ import { defineComponent } from 'vue';
 import { Preferences } from '@capacitor/preferences';
 import { mapMutations, mapActions } from 'vuex';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { Capacitor } from '@capacitor/core';
 import axios from 'axios';
 
 export default defineComponent({
@@ -25,7 +26,6 @@ export default defineComponent({
     syncDarkmode();
   },
   async mounted() {
-    ScreenOrientation.lock()
     this.getCSRF();
     const locale = await Preferences.get({ key: 'locale' });
     if (!locale) {
@@ -94,9 +94,13 @@ export default defineComponent({
       console.log('delivered notifications', notificationList);
     }
 
-    addListeners()
-    registerNotifications()
-    getDeliveredNotifications()
+    const isPushNotificationsAvailable = Capacitor.isPluginAvailable('PushNotifications');
+
+    if (isPushNotificationsAvailable){
+      addListeners()
+      registerNotifications()
+      getDeliveredNotifications()
+    }
   }
 })
 </script>
