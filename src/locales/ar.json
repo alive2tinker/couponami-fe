@@ -52,5 +52,7 @@
   "have an account already?":"لديك حساب بالفعل؟",
   "Enter the code":"ادخل الرمز",
   "Oops!":"خطا!",
-  "No data found":"لايوجد بيانات"
+  "No data found":"لايوجد بيانات",
+  "Logout":"تسجيل الخروج",
+  "please login first":"الرجاء تسجيل الدخول اولا"
 }

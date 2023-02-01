@@ -298,12 +298,16 @@ export default defineComponent({
       }
     },
     favorCoupon(coupon){
-      console.log(JSON.stringify(this.user));
-      this.registerFavorite({userID: this.user.id, couponID: coupon}).then(() => {
-        this.presentToast('favorited successfully', 'bottom')
-      }).catch((err) => {
-        this.presentToast(err.response.data.message, 'bottom')
-      });
+      if(!this.user){
+        this.presentToast(this.$t('please login first'), 'bottom');
+      }else{
+        this.registerFavorite({ userID: this.user.id, couponID: coupon }).then((res) => {
+          console.log(res);
+          this.presentToast('favorited successfully', 'bottom')
+        }).catch((err) => {
+          this.presentToast(err.response.data.message, 'bottom')
+        });
+      }
     }
   },
   setup() {

@@ -28,7 +28,6 @@ const FavoritesModule = {
         },
         //eslint-disable-next-line no-unused-vars
         registerFavorite({commit}, data){
-            console.log(`before sending data ${data}`)
             return new Promise((resolve, reject) => {
                 Request().post(`api/favoriteCoupon/${data.userID}/${data.couponID}`).then((response) => {
                     resolve(response);

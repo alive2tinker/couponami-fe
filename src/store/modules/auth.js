@@ -54,12 +54,31 @@ const AuthModule = {
           reject(err);
         })
       })
-    }
+    },
+    logout({ commit }) {
+      return new Promise((resolve, reject) => {
+        const userRemoved = async () => {
+          await Preferences.remove({ key: "user" });
+        };
+
+        userRemoved()
+          .then(() => {
+            commit("REMOVE_USER");
+            resolve();
+          })
+          .catch(() => {
+            reject();
+          });
+      });
+    },
   },
 
   mutations: {
     SET_USER(state, data){
       state.user = data;
+    },
+    REMOVE_USER(state){
+      state.user = null;
     },
     SET_LANG(state, data){
       state.language = data;
