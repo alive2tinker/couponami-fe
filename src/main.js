@@ -32,13 +32,15 @@ import i18n from "./i18n";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { Preferences } from "@capacitor/preferences";
+import Vue3Lottie from 'vue3-lottie'
+import 'vue3-lottie/dist/style.css'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAlFAzEh7xMxQYYBCJAWVMFNLxD5w_XVHs",
+  apiKey: "AIzaSyDYFWkAwKRmfPRpLWe1Q852OmSB_vtj0J4",
   authDomain: "couponami-12844.firebaseapp.com",
   projectId: "couponami-12844",
   storageBucket: "couponami-12844.appspot.com",
@@ -55,6 +57,7 @@ const app = createApp(App)
   .use(store)
   .use(i18n)
   .use(store)
+  .use(Vue3Lottie)
   .use(IonicVue, {
     mode: "ios",
   })

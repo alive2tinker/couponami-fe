@@ -54,5 +54,18 @@
   "Oops!":"خطا!",
   "No data found":"لايوجد بيانات",
   "Logout":"تسجيل الخروج",
-  "please login first":"الرجاء تسجيل الدخول اولا"
+  "please login first":"الرجاء تسجيل الدخول اولا",
+  "Copied successfully":"تم النسخ بنجاح",
+  "Invalid information":"معلومات دخول خاطئة!",
+  "Coupon has been reported sucessfully! Thank you":"تم الإبلاغ عن القسيمة بنجاح! شكرًا لك",
+  "Let's Reset your password":"دعنا نعيد تعيين كلمة المرور الخاصة بك",
+  "Send OTP":"ارسل رسالة التحقق",
+  "Enter the new password":"ادخل كلمة المرور الجديدة",
+  "Change Password":"تغيير كلمة المرور",
+  "Enter your new password with confirmation for reset":"أدخل كلمة المرور الجديدة الخاصة بك مع التأكيد لإعادة التعيين",
+  "your password has been reset successfully":"تم إعادة تعيين كلمة المرور الخاصة بك بنجاح",
+  "All right!":"حسنا!",
+  "Try again":"المحاولة مرة اخرى",
+  "!Oops":"!أُووبس",
+  "we encountered an error. please try again":"واجهنا خطأ. حاول مرة اخرى"
 }

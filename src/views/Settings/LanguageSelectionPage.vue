@@ -38,11 +38,12 @@ export default defineComponent({
         IonPage, IonContent, IonButtons, IonToolbar, IonBackButton, IonHeader, IonTitle, IonCheckbox
     },
     methods: {
-        async changeLocale(nuLocale) {
-            await Preferences.set({
+        changeLocale(nuLocale) {
+            const localeChanged = async() => await Preferences.set({
                 key: 'locale',
                 value: nuLocale,
             });
+            localeChanged();
             this.$i18n.locale = nuLocale;
             document.body.setAttribute('dir', this.$root.$i18n.locale === 'ar' ? 'rtl' : 'ltr')
         }

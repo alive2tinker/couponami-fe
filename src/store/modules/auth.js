@@ -18,7 +18,7 @@ const AuthModule = {
 
   actions: {
     login({commit}, data){
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         Request().post('api/login', data).then((response) => {
           commit('SET_USER', response.data);
           const setName = async () => {
@@ -31,6 +31,8 @@ const AuthModule = {
             resolve(response);
           })
           resolve(response);
+        }).catch((err) => {
+          reject(err);
         })
       })
     },
@@ -38,7 +40,16 @@ const AuthModule = {
       return new Promise((resolve, reject) => {
         Request().post('api/register', data).then((response) => {
           commit('SET_USER', response.data);
-          resolve();
+          const setName = async () => {
+            await Preferences.set({
+              key: 'user',
+              value: JSON.stringify(response.data),
+            });
+          };
+          setName().then(() => {
+            resolve(response);
+          })
+          resolve(response);
         }).catch((err) => {
           reject(err);
         })
@@ -71,6 +82,27 @@ const AuthModule = {
           });
       });
     },
+    /* eslint-disable-next-line no-unused-vars */
+    checkUser({commit}, phoneNumber){
+      return new Promise((resolve, reject) => {
+        console.log(phoneNumber)
+        Request().get(`api/checkUser?phone=${phoneNumber}`).then((res) => {
+          resolve(res);
+        }).catch((err) => {
+          reject(err);
+        })
+      })
+    },
+    /* eslint-disable-next-line no-empty-pattern */
+    updatePassowrd({}, data){
+      return new Promise((resolve, reject) => {
+        Request().post('api/reset-password', data).then(() => {
+          resolve();
+        }).catch((err) => {
+          reject(err);
+        })
+      })
+    }
   },
 
   mutations: {

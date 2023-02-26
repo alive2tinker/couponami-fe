@@ -24,7 +24,9 @@
                 <div class="flex h-72">
                     <div class="m-auto flex-1 space-y-3">
                         <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('username')"
-                            v-model="form.username"></ion-input>
+                            v-model="form.name"></ion-input>
+                            <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('email')"
+                                v-model="form.email"></ion-input>
                         <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('phone number')"
                             v-model="form.phone"></ion-input>
                         <ion-input type="password" class="border border-zinc-200 rounded-xl indent-2"
@@ -74,7 +76,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { useRouter } from 'vue-router';
 import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
 import VOtpInput from 'vue3-otp-input';
-
+import { Device } from '@capacitor/device';
 
 export default defineComponent({
     components: {
@@ -91,10 +93,12 @@ export default defineComponent({
     data() {
         return {
             form: {
-                username: '',
-                phone: '',
-                password: '',
-                passwordConfirmation: ''
+                name: 'ax',
+                email:'sufayran@gmail.com',
+                phone: '+966548226392',
+                password: 'alive2tinker',
+                passwordConfirmation: 'alive2tinker',
+                device_name: ''
             },
             smsSent: false,
             appVerifier: '',
@@ -104,6 +108,12 @@ export default defineComponent({
     },
     mounted() {
         this.initRecaptcha();
+        const getDeviceId = async () => {
+            this.form.device_name = await Device.getId();
+        }
+        getDeviceId().then(() => {
+            this.form.device_name = this.form.device_name.uuid;
+        });
     },
     methods: {
         ...mapActions({
@@ -129,8 +139,11 @@ export default defineComponent({
         },
         confirmOTP(value) {
             this.confirmationResult.confirm(value).then(() => {
-                this.registerUser(this.form);
-                this.$router.push({ name: 'home' })
+                this.registerUser(this.form).then(() => {
+                    this.$router.push({ name: 'home' })
+                }).catch((err) => {
+                    alert(err);
+                })
             }).catch((err) => {
                 alert(JSON.stringify(err))
             });

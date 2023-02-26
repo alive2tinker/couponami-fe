@@ -20,7 +20,6 @@ export default defineComponent({
   ionViewWillEnter() {
     const syncDarkmode = async () => {
       const { value } = await Preferences.get({ key: 'dark-theme' });
-      console.log(value);
       document.body.setAttribute('color-scheme', value)
     }
     syncDarkmode();
@@ -28,14 +27,7 @@ export default defineComponent({
   async mounted() {
     this.getCSRF();
     const locale = await Preferences.get({ key: 'locale' });
-    if (!locale) {
-      await Preferences.set({
-        key: 'locale',
-        value: this.$i18n.locale
-      })
-    } else {
-      this.$i18n.locale = locale.value
-    }
+    this.$i18n.locale = locale.value;
     document.body.setAttribute('dir', locale.value === 'ar' ? 'rtl' : 'ltr')
     const user = await Preferences.get({ key: 'user' });
     let userObject = JSON.parse(user.value);
@@ -51,15 +43,23 @@ export default defineComponent({
   },
   setup() {
     const addListeners = async () => {
+      const tokenHasBeenRegistered = await Preferences.get('tokenRegistered');
       await PushNotifications.addListener('registration', token => {
-        console.info('Registration token: ', token.value);
-        axios.post(`${process.env.VUE_APP_PRODUCTION_URL}/api/registerToken`, {
-          notifyToken: token.value
-        }).then(() => {
-          alert('push notification registration successful');
-        }).catch((err) => {
-          alert(err);
-        })
+        if (!JSON.parse(tokenHasBeenRegistered).value) {
+          axios.post(`${process.env.VUE_APP_PRODUCTION_URL}/api/registerToken`, {
+            notifyToken: token.value
+          }).then(() => {
+            const setTokenRegistered = async () => {
+              await Preferences.set({
+                key: 'tokenRegistered',
+                value: 'true'
+              });
+            }
+            setTokenRegistered();
+          }).catch((err) => {
+            alert(err);
+          })
+        }
       });
 
       await PushNotifications.addListener('registrationError', err => {
@@ -96,7 +96,7 @@ export default defineComponent({
 
     const isPushNotificationsAvailable = Capacitor.isPluginAvailable('PushNotifications');
 
-    if (isPushNotificationsAvailable){
+    if (isPushNotificationsAvailable) {
       addListeners()
       registerNotifications()
       getDeliveredNotifications()

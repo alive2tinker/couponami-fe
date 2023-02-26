@@ -22,10 +22,11 @@
                 </ion-text>
                 <div class="flex h-64">
                     <div class="m-auto flex-1 space-y-3">
-                        <ion-input class="border-2 border-zinc-200 dark:border-zinc-600 rounded-xl indent-2"
+                        <p class="text-red-500 text-center" v-show="invalidLogin">{{ $t('Invalid information') }}</p>
+                        <ion-input :class="{'border-2 dark:border-zinc-600 rounded-xl indent-2':true, 'border-red-300': this.errors.length > 0, 'border-zinc-200': this.errors.length == 0}"
                             :placeholder="$t('Username or phone number')" v-model="form.email"></ion-input>
                             <p class="text-red-500 text-sm" v-show="'email' in errors">{{ $t('invalid credentials')}}</p>
-                        <ion-input type="password" class="border-2 border-zinc-200 dark:border-zinc-600 rounded-xl indent-2"
+                        <ion-input type="password" :class="{ 'border-2 dark:border-zinc-600 rounded-xl indent-2': true, 'border-red-300': this.errors.length > 0, 'border-zinc-200': this.errors.length == 0 }"
                             :placeholder="$t('Password')" v-model="form.password"></ion-input>
                             <ion-button @click="router.push({name:'forgotPassword'})" fill="clear" id="forgotPasswordButton">{{ $t('Forgot Password')}}</ion-button>
                     </div>
@@ -58,6 +59,9 @@ export default defineComponent({
         signInDisabled(){
             return this.form.username == '' || this.form.password == ''
         },
+        invalidLogin(){
+            return this.errors.filter(e => e.code === "ERR_BAD_REQUEST").length > 0;
+        },
         ...mapGetters({
 
         })
@@ -78,15 +82,14 @@ export default defineComponent({
             
         }),
         async signIn(){
-
+            this.errors = [];
             let tDeviceName = await Device.getId();
             this.form.device_name = tDeviceName.uuid;
             console.log(JSON.stringify(this.form));
             this.login(this.form).then(() => {
                 this.$router.push({name: 'home'})
             }).catch((err) => {
-                // this.errors = err;
-                alert(err);
+                this.errors.push(err);
             })
         }
     },
