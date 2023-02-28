@@ -18,8 +18,7 @@
                 <ion-item>
                     <ion-icon :icon="moon" slot="start" />
                     <ion-label>{{ $t('Dark Mode') }}</ion-label>
-                    <ion-toggle slot="end" id="themeToggle" @ionChange="toggleDarkMode"
-                        :checked="darkmode"></ion-toggle>
+                    <ion-toggle slot="end" id="themeToggle" @ionChange="toggleDarkMode" :checked="darkmode"></ion-toggle>
                 </ion-item>
                 <ion-item @click="router.push({ name: 'languageSelection' })">
                     <ion-icon :icon="earth" slot="start" />
@@ -27,11 +26,11 @@
                     <ion-icon :icon="chevronBackOutline" slot="end" v-show="this.$i18n.locale === 'ar'" />
                     <ion-icon :icon="chevronForwardOutline" slot="end" v-show="this.$i18n.locale === 'en'" />
                 </ion-item>
-                <ion-item>
+                <ion-item :href="rateLink">
                     <ion-icon :icon="star" slot="start" />
                     <ion-label>{{ $t('Rate Us') }}</ion-label>
                 </ion-item>
-                <ion-item>
+                <ion-item @click="this.$refs.termsModal.$el.present();">
                     <ion-icon :icon="documentText" slot="start" />
                     <ion-label>{{ $t('Terms and Conditions') }}</ion-label>
                 </ion-item>
@@ -40,21 +39,50 @@
                     <ion-label color="danger">{{ $t('Logout') }}</ion-label>
                 </ion-item>
             </ion-list>
+            <ion-modal ref="termsModal" :initial-breakpoint="0.75" :breakpoints="[0, 0.25, 0.5, 0.75, 1]"
+                handle-behavior="cycle">
+                <ion-content class="ion-padding">
+                        <ion-text>
+                            <h1 class="text-2xl font-bold py-4">{{  $t('Terms and Conditions') }}</h1>
+                        </ion-text>
+                        <div v-html="terms.value">
+                            
+                        </div>
+                </ion-content>
+            </ion-modal>
             <div class="w-screen h-24"></div>
         </ion-content>
     </ion-page>
 </template>
 
 <script>
-import { IonList, IonItem, IonLabel, IonPage, IonToggle, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonList, IonItem, IonLabel, IonPage, IonToggle, IonModal, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, isPlatform } from '@ionic/vue';
 import { logOutOutline, person, moon, documentText, star, earth, chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { Preferences } from '@capacitor/preferences';
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default defineComponent({
     components: {
-        IonList, IonItem, IonLabel, IonPage, IonToggle, IonHeader, IonToolbar, IonTitle, IonContent
+        IonList, IonItem, IonLabel, IonPage, IonToggle, IonModal, IonHeader, IonToolbar, IonTitle, IonIcon, IonContent
+    },
+    computed: {
+        ...mapGetters({
+            settings: 'settings/all'
+        }),
+        terms(){
+            return this.settings.filter((e) => e.key === "terms")[0];
+        },
+        rateLink(){
+            let rateLink = '';
+            if(isPlatform('ios')){
+                rateLink = this.settings.filter((e) => e.key === 'appstore_link')[0]
+            }else{
+                rateLink = this.settings.filter((e) => e.key === 'playstore_link')[0]
+            }
+
+            return rateLink ? rateLink.value : '';
+        }
     },
     data() {
         return {
@@ -72,6 +100,8 @@ export default defineComponent({
             this.user = JSON.parse(user.value);
         }
         syncDarkmode();
+
+        this.fetchSettings();
     },
     methods: {
         toggleDarkMode(e) {
@@ -91,13 +121,14 @@ export default defineComponent({
             })
         },
         ...mapActions({
-            logout: 'auth/logout'
+            logout: 'auth/logout',
+            fetchSettings: 'settings/fetch'
         })
     },
     setup() {
         const router = useRouter();
         return {
-            logOutOutline, person, moon, star, earth, chevronBackOutline, chevronForwardOutline, router, documentText
+             logOutOutline, person, moon, star, earth, chevronBackOutline, chevronForwardOutline, router, documentText
         }
     }
 })

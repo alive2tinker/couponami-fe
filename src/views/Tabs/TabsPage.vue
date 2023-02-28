@@ -20,8 +20,8 @@
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
-    <ion-modal ref="modal" :isOpen="authModalOpen" @didDismiss="authModalOpen = false" :initial-breakpoint="0.25"
-      :breakpoints="[0, 0.25, 0.5, 0.75]">
+    <ion-modal ref="modal" :isOpen="authModalOpen" handle-behavior="cycle" @didDismiss="authModalOpen = false" :initial-breakpoint="0.25"
+      :breakpoints="[0.25]">
       <ion-content class="ion-padding">
         <h1 class="text-center font-bold text-xl py-4">{{ $t('Sorry') }}</h1>
         <p class="text-center text-zinc-500 py-4">{{ $t(message) }}</p>

@@ -123,7 +123,12 @@
               </ion-button>
             </div>
             <div class="col-span-3">
-              <ion-button shape="round" expand="full" @click="copyCode(currentCoupon.code)">
+              <ion-button fill="outline" shape="round" @click="favorCoupon(currentCoupon.id)">
+                <ion-icon :icon="star"></ion-icon>
+              </ion-button>
+            </div>
+            <div class="col-span-3">
+              <ion-button fill="outline" shape="round" expand="full" @click="copyCode(currentCoupon.code)">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -132,7 +137,7 @@
               </ion-button>
             </div>
             <div class="col-span-3">
-              <ion-button shape="round" expand="full" @click="shareCode(currentCoupon)">
+              <ion-button fill="outline" shape="round" expand="full" @click="shareCode(currentCoupon)">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -313,7 +318,7 @@ export default defineComponent({
         });
       }
     },
-    reportNotWorking(){
+    reportNotWorking() {
       this.presentToast('Coupon has been reported sucessfully! Thank you', 'bottom')
     }
   },

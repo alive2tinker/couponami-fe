@@ -9,7 +9,8 @@
             <ion-header collapse="condense">
                 <ion-toolbar v-if="currentStep < 4">
                     <ion-buttons>
-                        <ion-back-button defaultHref="/" text=""></ion-back-button>
+                        <ion-back-button :icon="chevronForwardOutline" default-href="/" text="" v-show="this.$i18n.locale === 'ar'"></ion-back-button>
+                        <ion-back-button :icon="chevronBackOutline" default-href="/" text="" v-show="this.$i18n.locale === 'en'"></ion-back-button>
                     </ion-buttons>
                 </ion-toolbar>
             </ion-header>
@@ -23,9 +24,11 @@
                     <div class="m-auto flex-1 space-y-3">
                         <p class="text-red-500 text-center" v-show="invalidLogin">{{ $t('Invalid information') }}</p>
                         <p class="text-red-500 text-center" v-show="userDoesNotExist">{{ $t('Invalid information') }}</p>
-                        <ion-input
-                            :class="{ 'border-2 dark:border-zinc-600 rounded-xl indent-2': true, 'border-red-300': this.errors.length > 0, 'border-zinc-200': this.errors.length == 0 }"
+                        <div :class="{ 'flex border-2 dark:border-zinc-600 rounded-xl indent-2': true, 'border-red-300': this.errors.length > 0, 'border-zinc-200': this.errors.length == 0 }">
+                            <ion-label class="pt-2.5">+966</ion-label>
+                            <ion-input
                             :placeholder="$t('phone number')" v-model="form.email"></ion-input>
+                        </div>
                     </div>
                 </div>
                 <div v-if="currentStep === 2">
@@ -69,7 +72,7 @@
                             <h1 class="text-center text-2xl font-bold">{{ $t('All right!')}}</h1>
                             <p class="text-sm">{{ $t('your password has been reset successfully') }}</p>
                             <div class="max-w-7xl mx-auto text-center py-4">
-                                <ion-button @click="router.push({ name: 'Login' })"> {{ $t('Login') }}</ion-button>
+                                <ion-button @click="resetPasswordDone"> {{ $t('Login') }}</ion-button>
                             </div>
                         </div>
                     </div>
@@ -108,6 +111,7 @@
 import { IonButtons, IonBackButton, IonPage, IonFooter, IonButton, IonInput, IonToolbar, IonHeader, IonTitle, IonContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
+import { chevronForwardOutline, chevronBackOutline } from 'ionicons/icons';
 import VOtpInput from 'vue3-otp-input';
 import { Device } from '@capacitor/device';
 import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
@@ -158,7 +162,7 @@ export default defineComponent({
         verifyUser() {
             const auth = getAuth();
             this.checkUser(this.form.email).then(() => {
-                signInWithPhoneNumber(auth, this.form.email, this.appVerifier)
+                signInWithPhoneNumber(auth, this.cleanNumber(this.form.email), this.appVerifier)
                     .then((confirmationResult) => {
                         this.confirmationResult = confirmationResult;
                         
@@ -188,11 +192,37 @@ export default defineComponent({
         },
         changePassword(){
             this.updatePassword(this.form).then(() => {
+                this.resetForm();
                 this.currentStep = 4;
             }).catch((err) => {
                 this.errors.push(err);
                 this.currentStep = 5;
+                this.resetForm();
             })
+        },
+        cleanNumber(phoneNumber){
+            if(phoneNumber.startsWith('966')){
+                return '+' + phoneNumber;
+            }else if(phoneNumber.startsWith('+')){
+                return phoneNumber;
+            }else if(phoneNumber.startsWith('0')){
+                return '+966' + phoneNumber.replace('0','')
+            }else{
+                return '+966' + phoneNumber;
+            }
+        },
+        resetForm(){
+            this.form = {
+                email: '',
+                device_name: '',
+                newPassword: "",
+                newPasswordConfirmation: "",
+            };
+            this.currentStep = 1;
+        },
+        resetPasswordDone(){
+            this.resetForm();
+            this.router.push({ name: 'Login' });
         },
         initRecaptcha() {
             const auth = getAuth();
@@ -210,7 +240,9 @@ export default defineComponent({
         return {
             router,
             successCheckmark,
-            failedMark
+            failedMark,
+            chevronForwardOutline,
+            chevronBackOutline
         }
     }
 })

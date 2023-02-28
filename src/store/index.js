@@ -3,6 +3,7 @@ import CategoriesModule from './modules/categories'
 import CouponsModule from './modules/coupons'
 import FavoritesModule from './modules/favorites'
 import AuthModule from './modules/auth'
+import SettingsModule from './modules/settings'
 
 export default createStore({
   state: {
@@ -17,6 +18,7 @@ export default createStore({
     coupons: CouponsModule,
     categories: CategoriesModule,
     favorites: FavoritesModule,
-    auth: AuthModule
+    auth: AuthModule,
+    settings: SettingsModule
   }
 })

@@ -39,13 +39,13 @@
   "Register":"تسجيل جديد",
   "You can favorite coupons when logged in":"يمكنك تفضيل الكوبونات بعد تسجيل الدخول",
   "Let's Sign you in":"دعنا نسجل دخولك",
-  "Welcome back to your Couponami!":"مرحبًا بك مرة أخرى في Couponami!",
+  "Welcome back to your Couponami!":"مرحبًا بك مرة أخرى في كوبونامي!",
   "Username or phone number":"اسم المستخدم أو رقم الهاتف",
   "Password":"كلمة المرور",
   "Forgot Password":"هل نسيت كلمة السر",
   "Don’t have an account?":"ليس لديك حساب؟",
   "Let's Register you in":"لنقم بتسجيلك",
-  "Welcome to your Couponami!":"مرحبًا بك في Couponami!",
+  "Welcome to your Couponami!":"مرحبًا بك في كوبونامي!",
   "username":"اسم االمستخدم",
   "phone number":"رقم الهاتف",
   "Password Confirmation":"تأكيد كلمة المرور",
@@ -67,5 +67,6 @@
   "All right!":"حسنا!",
   "Try again":"المحاولة مرة اخرى",
   "!Oops":"!أُووبس",
-  "we encountered an error. please try again":"واجهنا خطأ. حاول مرة اخرى"
+  "we encountered an error. please try again":"واجهنا خطأ. حاول مرة اخرى",
+  "Email":"البريد الالكتروني"
 }

@@ -9,26 +9,30 @@
             <ion-header collapse="condense">
                 <ion-toolbar>
                     <ion-buttons>
-                        <ion-back-button default-href="/" text=""></ion-back-button>
+                        <ion-back-button :icon="chevronForwardOutline" default-href="/" text="" v-show="this.$i18n.locale === 'ar'"></ion-back-button>
+                        <ion-back-button :icon="chevronBackOutline" default-href="/" text="" v-show="this.$i18n.locale === 'en'"></ion-back-button>
                     </ion-buttons>
                 </ion-toolbar>
             </ion-header>
             <!-- registration form -->
             <div class="max-w-7xl mx-auto p-4" v-show="!smsSent">
                 <ion-text>
-                    <h1 class="font-bold text-3xl">{{ $t("Let's Register you in") }}</h1>
+                    <h1 class="font-bold text-3xl dark:text-white">{{ $t("Let's Register you in") }}</h1>
                 </ion-text>
                 <ion-text>
-                    <p class="py-4 text-2xl font-thin">{{ $t('Welcome to your Couponami!') }}</p>
+                    <p class="py-4 text-2xl font-thin dark:text-zinc-200">{{ $t('Welcome to your Couponami!') }}</p>
                 </ion-text>
                 <div class="flex h-72">
                     <div class="m-auto flex-1 space-y-3">
                         <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('username')"
                             v-model="form.name"></ion-input>
-                            <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('email')"
+                            <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('Email')"
                                 v-model="form.email"></ion-input>
-                        <ion-input class="border border-zinc-200 rounded-xl indent-2" :placeholder="$t('phone number')"
+                                <div class="flex border border-zinc-200 rounded-xl indent-2">
+                                    <ion-label class="pt-2.5">+966</ion-label>
+                                    <ion-input class="" :placeholder="$t('phone number')"
                             v-model="form.phone"></ion-input>
+                                </div>
                         <ion-input type="password" class="border border-zinc-200 rounded-xl indent-2"
                             :placeholder="$t('Password')" v-model="form.password"></ion-input>
                         <ion-input type="password" class="border border-zinc-200 rounded-xl indent-2"
@@ -72,6 +76,7 @@
 <script >
 import { IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import { chevronForwardOutline, chevronBackOutline } from 'ionicons/icons';
 import { mapActions, mapGetters } from 'vuex';
 import { useRouter } from 'vue-router';
 import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
@@ -93,11 +98,11 @@ export default defineComponent({
     data() {
         return {
             form: {
-                name: 'ax',
-                email:'sufayran@gmail.com',
-                phone: '+966548226392',
-                password: 'alive2tinker',
-                passwordConfirmation: 'alive2tinker',
+                name: '',
+                email:'',
+                phone: '',
+                password: '',
+                passwordConfirmation: '',
                 device_name: ''
             },
             smsSent: false,
@@ -121,7 +126,7 @@ export default defineComponent({
         }),
         signIn() {
             const auth = getAuth();
-            signInWithPhoneNumber(auth, this.form.phone, this.appVerifier)
+            signInWithPhoneNumber(auth, this.cleanNumber(this.form.phone), this.appVerifier)
                 .then((confirmationResult) => {
                     this.confirmationResult = confirmationResult;
                     // console.log(JSON.stringify(confirmationResult))
@@ -139,6 +144,7 @@ export default defineComponent({
         },
         confirmOTP(value) {
             this.confirmationResult.confirm(value).then(() => {
+                this.form.phone = this.cleanNumber(this.form.phone)
                 this.registerUser(this.form).then(() => {
                     this.$router.push({ name: 'home' })
                 }).catch((err) => {
@@ -153,12 +159,25 @@ export default defineComponent({
             this.appVerifier = new RecaptchaVerifier('sign-in-button', {
                 'size': 'invisible',
             }, auth);
+        },
+        cleanNumber(phoneNumber){
+            if(phoneNumber.startsWith('966')){
+                return '+' + phoneNumber;
+            }else if(phoneNumber.startsWith('+')){
+                return phoneNumber;
+            }else if(phoneNumber.startsWith('0')){
+                return '+966' + phoneNumber.replace('0','')
+            }else{
+                return '+966' + phoneNumber;
+            }
         }
     },
     setup() {
         const router = useRouter();
         return {
-            router
+            router,
+            chevronForwardOutline,
+            chevronBackOutline
         }
     }
 })

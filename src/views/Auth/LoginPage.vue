@@ -9,16 +9,17 @@
             <ion-header collapse="condense">
                 <ion-toolbar>
                     <ion-buttons>
-                        <ion-back-button defaultHref="/" text=""></ion-back-button>
+                        <ion-back-button :icon="chevronForwardOutline" default-href="/" text="" v-show="this.$i18n.locale === 'ar'"></ion-back-button>
+                        <ion-back-button :icon="chevronBackOutline" default-href="/" text="" v-show="this.$i18n.locale === 'en'"></ion-back-button>
                     </ion-buttons>
                 </ion-toolbar>
             </ion-header>
             <div class="max-w-7xl mx-auto p-4">
                 <ion-text>
-                    <h1 class="font-bold text-3xl text-zinc-800 dark:text-zinc-300">{{ $t("Let's Sign you in") }}</h1>
+                    <h1 class="font-bold text-3xl">{{ $t("Let's Sign you in") }}</h1>
                 </ion-text>
                 <ion-text>
-                    <p class="py-4 text-2xl font-thin text-zinc-600 dark:text-zinc-300">{{  $t('Welcome back to your Couponami!') }}</p>
+                    <p class="py-4 text-2xl font-thin">{{  $t('Welcome back to your Couponami!') }}</p>
                 </ion-text>
                 <div class="flex h-64">
                     <div class="m-auto flex-1 space-y-3">
@@ -35,7 +36,7 @@
                     <ion-text>
                         <p class="font-medium subpixel-antialiased">{{ $t('Don’t have an account?')}}</p>
                     </ion-text>
-                    <ion-button fill="clear" class="-mt-3" id="registerButton" @click="goToRegistration">{{ $t('Register')}}</ion-button>
+                    <ion-button fill="clear" class="-mt-3" id="registerButton" @click="router.push({name: 'registration'})">{{ $t('Register')}}</ion-button>
                 </div>
             </div>
         </ion-content>
@@ -47,6 +48,7 @@
 <script>
 import { IonInput, IonFooter, IonButton, IonText, IonToolbar, IonTitle, IonPage, IonHeader, IonContent, IonButtons, IonBackButton } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { chevronForwardOutline, chevronBackOutline } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { Device } from '@capacitor/device';
@@ -91,12 +93,14 @@ export default defineComponent({
             }).catch((err) => {
                 this.errors.push(err);
             })
-        }
+        },
     },
     setup(){
         const router = useRouter();
         return {
-            router
+            router,
+            chevronForwardOutline,
+            chevronBackOutline
         }
     }
 })

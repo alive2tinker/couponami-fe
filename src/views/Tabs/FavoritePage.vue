@@ -78,28 +78,62 @@
               <p class="text-base">{{ currentCoupon.details ?? '' }}</p>
             </ion-text>
           </div>
-          <div class="flex">
+          <!-- <div class="flex">
             <ion-button shape="round" class="flex-1">
               <h1 class="text-2xl font-bold">{{ currentCoupon.code ?? '' }}</h1>
             </ion-button>
-            <!-- copy button -->
-            <ion-button shape="round" @click="copyCode(currentCoupon.code)">
+             copy button 
+            <ion-button fill="outline" shape="round" @click="copyCode(currentCoupon.code)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
               </svg>
             </ion-button>
-            <!-- share button -->
-            <ion-button shape="round" @click="shareCode(currentCoupon)">
+             share button 
+            <ion-button fill="outline" shape="round" @click="shareCode(currentCoupon)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
               </svg>
             </ion-button>
+             unfavorite button 
+            <ion-button fill="outline" color="danger" shape="round" @click="unfavorCoupon(currentCoupon.id)">
+              <ion-icon :icon="heartDislikeOutline"></ion-icon>
+            </ion-button>
+          </div> -->
+          <div class="grid grid-cols-12 gap-1">
+            <div class="col-span-9">
+              <ion-button expand="block" shape="round" class="flex-1">
+              <h1 class="text-2xl font-bold">{{ currentCoupon.code ?? '' }}</h1>
+            </ion-button>
+            </div>
+            <div class="col-span-2">
+              <ion-button fill="outline" shape="round" @click="copyCode(currentCoupon.code)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+              </svg>
+            </ion-button>
+            </div>
+            <div class="col-span-3">
+              <ion-button expand="block" fill="outline" shape="round" @click="shareCode(currentCoupon)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+              </svg>
+            </ion-button>
+            </div>
+            <div class="col-span-3">
+              <ion-button expand="block" fill="outline" color="danger" shape="round" @click="unfavorCoupon(currentCoupon.id)">
+              <ion-icon :icon="heartDislikeOutline"></ion-icon>
+            </ion-button>
+            </div>
           </div>
-          <ion-button fill="clear" color="danger">{{ $t('Not working?') }}</ion-button>
+          <ion-button fill="clear" color="danger" @click="presentToast('your report has been submitted successfully','bottom')">{{ $t('Not working?') }}</ion-button>
         </ion-content>
       </ion-modal>
       <div class="w-screen h-24"></div>
@@ -108,11 +142,12 @@
 </template>
 
 <script setup>
-import { IonModal, IonButton, IonCard, toastController, IonCardHeader, IonCardContent, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonModal, IonButton, IonCard, toastController, IonIcon, IonCardHeader, IonCardContent, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import EmptyScreen from '@/components/EmptyScreen.vue';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard';
+import { heartDislikeOutline } from 'ionicons/icons';
 
 const store = useStore();
 let favorites = computed(() => { return store.getters['favorites/all'] })
@@ -147,6 +182,17 @@ function copyCode(code) {
   Clipboard.copy(code);
   presentToast('Copied successfully', 'bottom');
   hideModal();
+}
+
+function unfavorCoupon(coupon){
+    let data = {userID: user.value.id, couponID: coupon}
+    store.dispatch('favorites/deleteFavorite', data).then(() => {
+      hideModal();
+      presentToast('deleted successfully','bottom')
+    }).catch((err) => {
+      hideModal();
+      presentToast(err.response.message, 'bottom');
+    })
 }
 
 function hideModal() {
