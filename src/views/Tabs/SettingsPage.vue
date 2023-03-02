@@ -15,6 +15,12 @@
                 </ion-toolbar>
             </ion-header>
             <ion-list>
+                <ion-item @click="router.push({name: 'Account'})">
+                    <ion-icon :icon="person" slot="start" />
+                    <ion-label>{{ $t('Account')}}</ion-label>
+                    <ion-icon :icon="chevronBackOutline" slot="end" v-show="this.$i18n.locale === 'ar'" />
+                    <ion-icon :icon="chevronForwardOutline" slot="end" v-show="this.$i18n.locale === 'en'" />
+                </ion-item>
                 <ion-item>
                     <ion-icon :icon="moon" slot="start" />
                     <ion-label>{{ $t('Dark Mode') }}</ion-label>

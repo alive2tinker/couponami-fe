@@ -14,6 +14,14 @@ const routes = [
     component: () => import("@/views/Auth/LoginPage.vue"),
   },
   {
+    path: "/account",
+    name: "Account",
+    component: () => import("@/views/Auth/AccountPage.vue"),
+    meta:{
+      isGuarded: true
+    }
+  },
+  {
     path: "/register",
     name: "registration",
     component: () => import("@/views/Auth/RegisterPage.vue"),

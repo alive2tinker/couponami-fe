@@ -187,6 +187,7 @@ function copyCode(code) {
 function unfavorCoupon(coupon){
     let data = {userID: user.value.id, couponID: coupon}
     store.dispatch('favorites/deleteFavorite', data).then(() => {
+      
       hideModal();
       presentToast('deleted successfully','bottom')
     }).catch((err) => {

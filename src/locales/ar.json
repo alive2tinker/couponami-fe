@@ -68,5 +68,8 @@
   "Try again":"المحاولة مرة اخرى",
   "!Oops":"!أُووبس",
   "we encountered an error. please try again":"واجهنا خطأ. حاول مرة اخرى",
-  "Email":"البريد الالكتروني"
+  "Email":"البريد الالكتروني",
+  "Information":"بياناتك",
+  "Name":"الاسم",
+  "Phone":"الهاتف"
 }
